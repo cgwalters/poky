@@ -107,7 +107,7 @@ EOF
 	${ROOTFS_POSTINSTALL_COMMAND}
 
 	# Report delayed package scriptlets
-	for i in ${IMAGE_ROOTFS}/etc/rpm-postinsts/*; do
+	for i in ${IMAGE_ROOTFS}/var/rpm-postinsts/*; do
 		echo "Delayed package scriptlet: `head -n 3 $i | tail -n 1`"
 	done
 
@@ -116,15 +116,18 @@ EOF
 	i=\$i
 	cat > ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}configure << EOF
 #!/bin/sh
-for i in /etc/rpm-postinsts/*; do
-	echo "Running postinst $i..."
-	if [ -f $i ] && $i; then
-		rm $i
-	else
-		echo "ERROR: postinst $i failed."
+for i in /var/rpm-postinsts/*; do
+	if [ -f $i ]; then
+		echo "Running postinst $i..."
+		if $i; then
+			rm -f $i
+		else
+			echo "ERROR: postinst $i failed."
+		fi
 	fi
 done
-rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}configure
+# Don't show any errors if this fails, e.g. due to /etc being a readonly bind mount
+rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}configure 2>/dev/null
 EOF
 	chmod 0755 ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}configure
 

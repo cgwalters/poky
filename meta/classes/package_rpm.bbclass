@@ -394,13 +394,13 @@ export OPKG_OFFLINE_ROOT="\$D"
 
 \$2 \$1/\$3 \$4
 if [ \$? -ne 0 ]; then
-  mkdir -p \$1/etc/rpm-postinsts
+  mkdir -p \$1/var/rpm-postinsts
   num=100
-  while [ -e \$1/etc/rpm-postinsts/\${num} ]; do num=\$((num + 1)); done
-  echo "#!\$2" > \$1/etc/rpm-postinsts/\${num}
-  echo "# Arg: \$4" >> \$1/etc/rpm-postinsts/\${num}
-  cat \$1/\$3 >> \$1/etc/rpm-postinsts/\${num}
-  chmod +x \$1/etc/rpm-postinsts/\${num}
+  while [ -e \$1/var/rpm-postinsts/\${num} ]; do num=\$((num + 1)); done
+  echo "#!\$2" > \$1/var/rpm-postinsts/\${num}
+  echo "# Arg: \$4" >> \$1/var/rpm-postinsts/\${num}
+  cat \$1/\$3 >> \$1/var/rpm-postinsts/\${num}
+  chmod +x \$1/var/rpm-postinsts/\${num}
 fi
 EOF
 
