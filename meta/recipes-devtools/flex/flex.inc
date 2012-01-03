@@ -10,6 +10,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 "
 
 inherit autotools gettext
 
-do_install_append_virtclass-native() {
-	create_wrapper ${D}/${bindir}/flex M4=${STAGING_BINDIR_NATIVE}/m4
-}
+# We don't want to hardcode the m4 path since it will be found
+# in the staging directory.
+EXTRA_OECONF = " ac_cv_path_M4=m4"
+
