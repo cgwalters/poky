@@ -25,6 +25,10 @@ EXTRA_OECONF = "--with-installed-glib --with-installed-popt --disable-legacy-scr
 EXTRA_OECONF_virtclass-native = "--disable-legacy-scripts"
 EXTRA_OECONF_virtclass-nativesdk = "--disable-legacy-scripts"
 
+# Include the .m4 in the main package - it's silly to have pkg-config without also
+# being able to run aclocal and use the PKG_CHECK_MODULES() macro.
+FILES_${PN} += "${datadir}/aclocal/pkg.m4"
+
 acpaths = "-I ."
 do_configure_prepend () {
 	install -m 0644 ${WORKDIR}/glibconfig-sysdefs.h glib-1.2.10/
