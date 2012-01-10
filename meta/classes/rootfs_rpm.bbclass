@@ -132,7 +132,6 @@ EOF
 	chmod 0755 ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}configure
 
 	install -d ${IMAGE_ROOTFS}/${sysconfdir}
-	echo ${BUILDNAME} > ${IMAGE_ROOTFS}/${sysconfdir}/version
 
 	${RPM_POSTPROCESS_COMMANDS}
 	${ROOTFS_POSTPROCESS_COMMAND}
