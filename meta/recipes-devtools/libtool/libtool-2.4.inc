@@ -4,7 +4,7 @@ DEPENDS = "libtool-native"
 PACKAGES =+ "libltdl libltdl-dev libltdl-dbg"
 FILES_${PN} += "${datadir}/aclocal*"
 FILES_libltdl = "${libdir}/libltdl.so.*"
-FILES_libltdl-dev = "${libdir}/libltdl.* ${includedir}/ltdl.h"
+FILES_libltdl-dev = "${libdir}/libltdl.* ${includedir}/ltdl.h ${includedir}/libltdl/*.h"
 FILES_libltdl-dbg = "${libdir}/.debug/"
 
 SRC_URI[md5sum] = "b32b04148ecdd7344abc6fe8bd1bb021"
