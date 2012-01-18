@@ -43,6 +43,10 @@ cat > zlibdefs.h << EOF
 #endif
 EOF
 
+dnl Used by zlib.pc
+sharedlibdir=${libdir}
+AC_SUBST(sharedlibdir)
+
 AC_CONFIG_FILES([Makefile
 	         zlib.pc])
 
