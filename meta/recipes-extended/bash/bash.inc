@@ -14,7 +14,11 @@ PARALLEL_MAKE = ""
 bindir = "/bin"
 sbindir = "/sbin"
 
-EXTRA_OECONF = "--enable-job-control"
+# Override getcwd_malloc because the copy of getcwd()
+# in bash blows up when run inside a chroot and a bind
+# mount pointing outside.  This assumes we're using eglibc.
+EXTRA_OECONF = "--enable-job-control bash_cv_getcwd_malloc=yes "
+
 export CC_FOR_BUILD = "${BUILD_CC}"
 
 ALTERNATIVE_NAME = "sh"
