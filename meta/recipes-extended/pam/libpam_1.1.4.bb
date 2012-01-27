@@ -20,7 +20,9 @@ RRECOMMENDS_${PN} = "libpam-runtime"
 SRC_URI = "${KERNELORG_MIRROR}/linux/libs/pam/library/Linux-PAM-${PV}.tar.bz2 \
            file://99_pam \
            file://pam.d/* \
-           file://libpam-xtests.patch"
+           file://libpam-xtests.patch \
+           file://pam-passwd-in-var.patch \
+	   "
 
 SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch"
 
