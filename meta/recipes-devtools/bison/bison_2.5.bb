@@ -23,7 +23,7 @@ SRC_URI[sha256sum] = "722def46e4a19a5b7a579ef30db1965f86c37c1a20a5f0113743a2e439
 
 # We don't want to hardcode the m4 path since it will be found
 # in the staging directory.
-EXTRA_OECONF = " M4=m4"
+EXTRA_OECONF = " ac_cv_path_M4=m4"
 
 DEPENDS_virtclass-native = "gettext-minimal-native"
 SRC_URI_virtclass-native = "${BASE_SRC_URI}"

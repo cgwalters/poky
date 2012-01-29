@@ -12,5 +12,5 @@ inherit autotools gettext
 
 # We don't want to hardcode the m4 path since it will be found
 # in the staging directory.
-EXTRA_OECONF = " M4=m4"
+EXTRA_OECONF = " ac_cv_path_M4=m4"
 
