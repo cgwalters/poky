@@ -20,6 +20,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
            file://multilib_readlib.patch \
            file://eglibc-rpc-export-again.patch \
            file://glibc-2.14-libdl-crash.patch \
+           file://lckpwdf-move-to-var.patch \
           "
 LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \

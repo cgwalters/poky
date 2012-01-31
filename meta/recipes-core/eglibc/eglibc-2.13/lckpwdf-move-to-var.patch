@@ -1,0 +1,26 @@
+From e586f6804ac54200eef941bd7b3f5310b767dd1f Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Mon, 30 Jan 2012 22:21:31 -0500
+Subject: [PATCH] lckpwdf: Move /etc/.pwd.lock to /var/.pwd.lock
+
+/etc may be read-only.
+---
+ shadow/lckpwdf.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/shadow/lckpwdf.c b/shadow/lckpwdf.c
+index 746e14b..c13076e 100644
+--- a/shadow/lckpwdf.c
++++ b/shadow/lckpwdf.c
+@@ -30,7 +30,7 @@
+ 
+ 
+ /* Name of the lock file.  */
+-#define PWD_LOCKFILE "/etc/.pwd.lock"
++#define PWD_LOCKFILE "/var/.pwd.lock"
+ 
+ /* How long to wait for getting the lock before returning with an
+    error.  */
+-- 
+1.7.7
+
