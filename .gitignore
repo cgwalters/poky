@@ -12,6 +12,7 @@ sources/
 meta-*
 !meta-skeleton
 !meta-demoapps
+!meta-gnomeos
 *.swp
 *.orig
 *.rej
