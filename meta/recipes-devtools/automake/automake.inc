@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/automake/"
 SECTION = "devel"
 PR = "r4"
 
-SRC_URI = "${GNU_MIRROR}/automake/automake-${PV}.tar.bz2 "
+SRC_URI = "${GNU_MIRROR}/automake/automake-${PV}.tar.gz"
 
 inherit autotools
 
