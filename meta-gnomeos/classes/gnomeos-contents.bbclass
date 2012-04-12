@@ -189,7 +189,7 @@ fakeroot do_rootfs () {
 	ostree --repo=${repo} diff "${base}" || true
 	# Create the initial root if it doesn't exist
 	if ! ostree --repo=${repo} rev-parse "${buildroot}" 2>/dev/null; then
-	  ostree --repo=${repo} compose -s "Initial compose" -b ${buildroot} ${base}:/
+	  ostree --repo=${repo} commit -s "Initial commit" -b ${buildroot} --tree=ref="${base}"
 	fi
 }
 
