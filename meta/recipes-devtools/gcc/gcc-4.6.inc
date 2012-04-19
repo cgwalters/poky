@@ -71,6 +71,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
 	   file://gcc-with-linker-hash-style.patch \
 	   file://pr46934.patch \
 	   file://pr32219.patch \
+	   file://gengtype-fix-out-of-scope-newv-access.patch \
 	  "
 
 SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
