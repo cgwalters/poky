@@ -1,0 +1,21 @@
+With GCC 4.7 or newer the package would fail to build with this error:
+
+  elf.cpp:68:5: error: '::close' has not been declared
+
+This adds the unistd.h header so the ::close() function is defined.
+
+Diff:
+http://lists.debian.org/debian-boot/2012/04/msg00057.html
+
+
+diff -Nru mklibs-0.1.33/src/mklibs-readelf/elf.cpp mklibs-0.1.33+nmu1/src/mklibs-readelf/elf.cpp
+--- mklibs-0.1.33/src/mklibs-readelf/elf.cpp	2011-01-18 00:41:29.000000000 +0000
++++ mklibs-0.1.33+nmu1/src/mklibs-readelf/elf.cpp	2012-04-05 00:15:09.000000000 +0000
+@@ -25,6 +25,7 @@
+ #include <fcntl.h>
+ #include <sys/mman.h>
+ #include <sys/stat.h>
++#include <unistd.h>
+ 
+ using namespace Elf;
+ 
