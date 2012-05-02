@@ -132,6 +132,7 @@ fakeroot do_rootfs () {
 	rm -f ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/shadow-
 	ln -s /var/shadow ${IMAGE_ROOTFS}/etc/shadow
 	rm -f ${IMAGE_ROOTFS}/etc/group
+	rm -f ${IMAGE_ROOTFS}/etc/group-
 	ln -s /var/group ${IMAGE_ROOTFS}/etc/group
 
 	TOPROOT_BIND_MOUNTS="home root tmp"
