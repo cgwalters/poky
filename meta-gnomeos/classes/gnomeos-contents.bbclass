@@ -104,6 +104,9 @@ fakeroot do_rootfs () {
 	rm -f ${IMAGE_ROOTFS}/etc/init.d/*
 	rm -f ${IMAGE_ROOTFS}/etc/rc*.d/*
 
+	# Remove /var
+	rm ${IMAGE_ROOTFS}/var -rf
+
 	# Clear out the default fstab; everything we need right now is mounted
 	# in the initramfs.
 	cat < /dev/null > ${IMAGE_ROOTFS}/etc/fstab
