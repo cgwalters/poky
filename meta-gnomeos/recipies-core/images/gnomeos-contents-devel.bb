@@ -48,4 +48,5 @@ IMAGE_INSTALL += "libc6-dev \
 		  libcurl-dev \
 		  ncurses-dev \
 		  db-dev \
+		  cracklib-dev \
 		  "

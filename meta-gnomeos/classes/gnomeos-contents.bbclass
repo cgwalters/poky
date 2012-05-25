@@ -47,6 +47,7 @@ RDEPENDS += "ostree-native \
 	     speex \
 	     cpio \
 	     libatomics-ops \
+	     cracklib \
 	    "
 
 RECIPE_PACKAGES = "task-core-boot \
