@@ -37,6 +37,7 @@ IMAGE_INSTALL = "libuuid1 \
 		 module-init-tools \
 		 cpio \
 		 util-linux-mount \
+		 dejavu-fonts-ttf \
 		 "
 
 RDEPENDS += "ostree-native \
@@ -73,6 +74,7 @@ RECIPE_PACKAGES = "task-core-boot \
 		   python-modules \
 		   python-misc \
 		   openssh \
+		   dejavu-fonts-ttf \
 		   "
 
 PACKAGE_INSTALL = "${RECIPE_PACKAGES} ${IMAGE_INSTALL}"
