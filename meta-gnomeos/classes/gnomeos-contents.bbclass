@@ -53,6 +53,7 @@ RDEPENDS += "ostree-native \
 RECIPE_PACKAGES = "task-core-boot \
 		   coreutils \
 		   ostree \
+		   gnome-ostree \
 		   strace \
 		   bash \
 		   tar \
