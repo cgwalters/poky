@@ -73,6 +73,7 @@ RECIPE_PACKAGES = "task-core-boot \
 		   python-modules \
 		   python-misc \
 		   openssh \
+		   krb5 \
 		   "
 
 PACKAGE_INSTALL = "${RECIPE_PACKAGES} ${IMAGE_INSTALL}"

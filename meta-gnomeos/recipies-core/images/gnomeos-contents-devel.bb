@@ -49,4 +49,5 @@ IMAGE_INSTALL += "libc6-dev \
 		  ncurses-dev \
 		  db-dev \
 		  cracklib-dev \
+		  krb5-dev \
 		  "
