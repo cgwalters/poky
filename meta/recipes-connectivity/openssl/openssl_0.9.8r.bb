@@ -1,6 +1,6 @@
 require openssl.inc
 
-PR = "r7"
+PR = "r8"
 SRC_URI += "file://debian/ca.patch \
             file://debian/config-hurd.patch;apply=no \
             file://debian/debian-targets.patch \
@@ -19,7 +19,8 @@ SRC_URI += "file://debian/ca.patch \
             file://debian/shared-lib-ext.patch \
             file://debian/stddef.patch \
             file://debian/version-script.patch \
-            file://debian/perl-path.diff"
+            file://debian/perl-path.diff \
+            file://find.pl"
 
 SRC_URI[md5sum] = "0352932ea863bc02b056cda7c9ac5b79"
 SRC_URI[sha256sum] = "42b2368f786b05ed3be846838dce126b4e8e3dba8fb2e0ce83102df28c102fad"
@@ -28,3 +29,7 @@ SRC_URI += "file://configure-targets.patch \
             file://shared-libs.patch"
 
 BBCLASSEXTEND = "native nativesdk"
+
+do_configure_prepend () {
+	cp ${WORKDIR}/find.pl ${S}/util/find.pl
+}
