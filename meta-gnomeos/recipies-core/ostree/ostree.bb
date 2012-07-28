@@ -6,7 +6,7 @@ SRC_URI = "git://git.gnome.org/ostree;tag=v2012.6"
 #SRC_URI = "git:///src/ostree;tag=40ebccb55ea80437d795eec57cca03ce45cba0cd"
 S = "${WORKDIR}/git"
 
-DEPENDS += "libarchive glib-2.0"
+DEPENDS += "attr libarchive glib-2.0"
 
 inherit autotools
 
