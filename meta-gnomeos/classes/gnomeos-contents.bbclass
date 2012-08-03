@@ -14,6 +14,7 @@ IMAGE_INSTALL = "libuuid1 \
 		 e2fsprogs-e2fsck \
 		 e2fsprogs-mke2fs \
 		 e2fsprogs-tune2fs \
+		 libpci3 \
 		 libtiff3 \
 		 libjpeg8 \
 		 libltdl7 \
@@ -49,6 +50,7 @@ RDEPENDS += "ostree-native \
 	     cpio \
 	     libatomics-ops \
 	     cracklib \
+	     pciutils \
 	    "
 
 RECIPE_PACKAGES = "task-core-boot \

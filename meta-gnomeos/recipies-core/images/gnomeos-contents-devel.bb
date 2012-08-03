@@ -15,6 +15,7 @@ RECIPE_PACKAGES += "task-core-sdk \
 		zip \
 		libxml-parser-perl \
 		gettext-dev \
+		libpci-dev \
 		"
 
 DEPENDS += "db"
