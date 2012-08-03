@@ -111,9 +111,6 @@ fakeroot do_rootfs () {
 	rm -f ${IMAGE_ROOTFS}/etc/init.d/*
 	rm -f ${IMAGE_ROOTFS}/etc/rc*.d/*
 
-	# Remove /var
-	rm ${IMAGE_ROOTFS}/var -rf
-
 	# Clear out the default fstab; everything we need right now is mounted
 	# in the initramfs.
 	cat < /dev/null > ${IMAGE_ROOTFS}/etc/fstab
@@ -167,6 +164,12 @@ fakeroot do_rootfs () {
 	done
 	rm -rf ${IMAGE_ROOTFS}
 	mv ${WORKDIR}/gnomeos-contents ${IMAGE_ROOTFS}
+
+	# Keep a copy of what ended up in /var
+	VARDATA_DEST=${IMAGE_NAME}.vardata.tar.gz
+	(cd ${IMAGE_ROOTFS}/var && tar -zcv -f ${WORKDIR}/${VARDATA_DEST} .)	
+	echo "Created ${VARDATA_DEST}"
+	mv ${WORKDIR}/${VARDATA_DEST} ${DEPLOY_DIR_IMAGE}/
 
 	DEST=${IMAGE_NAME}.rootfs.tar.gz
 	(cd ${IMAGE_ROOTFS} && tar -zcv -f ${WORKDIR}/$DEST .)
