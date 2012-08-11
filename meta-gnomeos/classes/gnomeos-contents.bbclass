@@ -141,16 +141,29 @@ fakeroot do_rootfs () {
 	# Random configuration changes here
 	sed -i -e 's,^DESTINATION=.*,DESTINATION=\"file\",' ${IMAGE_ROOTFS}/etc/syslog.conf
 
+	# Empty out the default passwd file
+	rm -f ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
+	  ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
+	touch ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group
+	# Delete backup files
+	rm -f ${IMAGE_ROOTFS}/etc/passwd- ${IMAGE_ROOTFS}/etc/group- \
+	  ${IMAGE_ROOTFS}/etc/shadow- ${IMAGE_ROOTFS}/etc/gshadow-
+	cat > ${IMAGE_ROOTFS}/lib/passwd << EOF
+root::0:0:root:/:/bin/sh
+dbus:*:1:1:dbus:/:/bin/false
+gdm:*:2:2:gdm:/var/lib/gdm:/bin/false
+polkitd:*:3:3:polkitd:/:/bin/false
+EOF
+
+	cat > ${IMAGE_ROOTFS}/lib/group << EOF
+root:*:0:root
+dbus:*:1:
+gdm:*:2:
+polkitd:*:3:
+EOF
+
 	# Adjustments for /etc -> {/var,/run} here
 	ln -sf /run/resolv.conf ${IMAGE_ROOTFS}/etc/resolv.conf
-	rm -f ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/passwd-
-	ln -s /var/passwd ${IMAGE_ROOTFS}/etc/passwd
-	rm -f ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/shadow-
-	ln -s /var/shadow ${IMAGE_ROOTFS}/etc/shadow
-	rm -f ${IMAGE_ROOTFS}/etc/group ${IMAGE_ROOTFS}/etc/group-
-	ln -s /var/group ${IMAGE_ROOTFS}/etc/group
-	rm -f ${IMAGE_ROOTFS}/etc/gshadow ${IMAGE_ROOTFS}/etc/gshadow-
-	ln -s /var/gshadow ${IMAGE_ROOTFS}/etc/gshadow
 
 	# Fix un-world-readable config file; no idea why this isn't. 
 	chmod a+r ${IMAGE_ROOTFS}/etc/securetty
