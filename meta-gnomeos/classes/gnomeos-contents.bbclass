@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
 
 inherit rootfs_${IMAGE_PKGTYPE}
 
+DEPENDS += "ostree-native"
+
 IMAGE_INSTALL = "libuuid1 \
 	         libblkid1 \
 		 e2fsprogs-blkid \
@@ -41,8 +43,7 @@ IMAGE_INSTALL = "libuuid1 \
 		 dejavu-fonts-ttf \
 		 "
 
-RDEPENDS += "ostree-native \
- 	     eglibc-locale \
+RDEPENDS += " eglibc-locale \
 	     tiff \
 	     libogg \
 	     libvorbis \
