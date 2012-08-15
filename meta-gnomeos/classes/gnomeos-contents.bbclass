@@ -200,8 +200,8 @@ fakeroot do_rootfs () {
 	buildroot=gnomeos-3.6-${ostree_machine}-${ostree_target}
 	base=bases/yocto/${buildroot}
 	repo=${DEPLOY_DIR_IMAGE}/repo
-	if ! test -d ${repo}; then
-	   mkdir ${repo}
+	mkdir -p ${repo}
+	if ! test -d ${repo}/objects; then
 	   ostree --repo=${repo} init --archive
         fi
 	ostree --repo=${repo} commit -s "${IMAGE_LINK_NAME}" --skip-if-unchanged "Build" -b ${base} --tree=tar=${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.tar.gz
