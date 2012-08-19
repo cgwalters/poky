@@ -54,7 +54,15 @@ RDEPENDS += " eglibc-locale \
 	     pciutils \
 	    "
 
-RECIPE_PACKAGES = "task-core-boot \
+RECIPE_PACKAGES = "base-files \
+		   base-passwd \
+		   netbase \
+		   busybox \
+		   update-alternatives-cworth \
+		   sysvinit \
+		   udev \
+		   tinylogin \
+		   initscripts \
 		   coreutils \
 		   ostree \
 		   gnome-ostree \
