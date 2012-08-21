@@ -214,10 +214,6 @@ fakeroot do_rootfs () {
         fi
 	ostree --repo=${repo} commit -s "${IMAGE_LINK_NAME}" --skip-if-unchanged "Build" -b ${base} --tree=tar=${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.tar.gz
 	ostree --repo=${repo} diff "${base}" || true
-	# Create the initial root if it doesn't exist
-	if ! ostree --repo=${repo} rev-parse "${buildroot}" 2>/dev/null; then
-	  ostree --repo=${repo} commit -s "Initial commit" -b ${buildroot} --tree=ref="${base}"
-	fi
 }
 
 log_check() {
