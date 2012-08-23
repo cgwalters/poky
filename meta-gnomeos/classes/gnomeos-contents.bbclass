@@ -37,7 +37,6 @@ IMAGE_INSTALL = "libuuid1 \
 		 pam-plugin-permit \
 		 pam-plugin-nologin \
 		 ncurses-terminfo-base \
-		 module-init-tools \
 		 cpio \
 		 util-linux-mount \
 		 dejavu-fonts-ttf \
@@ -87,6 +86,7 @@ RECIPE_PACKAGES = "base-files \
 		   openssh \
 		   krb5 \
 		   dejavu-fonts-ttf \
+		   module-init-tools \
 		   "
 
 PACKAGE_INSTALL = "${RECIPE_PACKAGES} ${IMAGE_INSTALL}"
