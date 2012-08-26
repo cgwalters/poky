@@ -43,6 +43,8 @@ IMAGE_INSTALL += "libc6-dev \
 		  libtasn1-dev \
 		  libtasn1-bin \
 		  libgcrypt-dev \
+		  libattr-dev \
+		  libacl-dev \
 		  libgnutls-dev \
 		  icu-dev \
 		  curl-dev \

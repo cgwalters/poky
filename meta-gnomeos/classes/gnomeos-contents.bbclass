@@ -77,6 +77,8 @@ RECIPE_PACKAGES = "base-files \
 		   icu \
 		   procps \
 		   libpam \
+		   attr \
+		   acl \
 		   ncurses \
 		   libvorbis \
 		   speex \
