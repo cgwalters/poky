@@ -63,7 +63,6 @@ RECIPE_PACKAGES = "base-files \
 		   tinylogin \
 		   initscripts \
 		   coreutils \
-		   ostree \
 		   gnome-ostree \
 		   strace \
 		   bash \
