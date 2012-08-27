@@ -1,6 +1,6 @@
 require glib.inc
 
-PR = "r3"
+PR = "r4"
 PE = "1"
 
 DEPENDS += "libffi python-argparse-native zlib"
@@ -28,9 +28,7 @@ do_install_append() {
   rmdir ${D}${libdir}/gio/modules/
   rmdir ${D}${libdir}/gio/
 
-  # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
-  # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
   if [ -f ${D}${bindir}/glib-mkenums ]; then
-    sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-mkenums
+    sed -i -e '1s,#!.*perl,#! /usr/bin/env perl,' ${D}${bindir}/glib-mkenums
   fi
 }
