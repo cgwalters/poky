@@ -11,7 +11,6 @@ DEPENDS += "ostree-native"
 
 IMAGE_INSTALL = "libuuid1 \
 	         libblkid1 \
-		 e2fsprogs-blkid \
 		 e2fsprogs-fsck \
 		 e2fsprogs-e2fsck \
 		 e2fsprogs-mke2fs \
@@ -88,6 +87,7 @@ RECIPE_PACKAGES = "base-files \
 		   krb5 \
 		   dejavu-fonts-ttf \
 		   module-init-tools \
+		   e2fsprogs-blkid \
 		   nss-altfiles \
 		   "
 
