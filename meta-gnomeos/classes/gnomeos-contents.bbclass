@@ -50,6 +50,7 @@ RDEPENDS += " eglibc-locale \
 	     libatomics-ops \
 	     cracklib \
 	     pciutils \
+	     libtool \
 	    "
 
 RECIPE_PACKAGES = "base-files \
