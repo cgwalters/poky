@@ -88,6 +88,7 @@ RECIPE_PACKAGES = "base-files \
 		   krb5 \
 		   dejavu-fonts-ttf \
 		   module-init-tools \
+		   nss-altfiles \
 		   "
 
 PACKAGE_INSTALL = "${RECIPE_PACKAGES} ${IMAGE_INSTALL}"
@@ -162,6 +163,11 @@ dbus:*:1:
 gdm:*:2:
 polkitd:*:3:
 EOF
+
+	# Add "altfiles" NSS module to /etc/nsswitch.conf
+	sed -i -e '/^passwd:/cpasswd: files altfiles' \
+	       -e '/^group:/cgroup: files altfiles' \
+               ${IMAGE_ROOTFS}/etc/nsswitch.conf
 
 	# Adjustments for /etc -> {/var,/run} here
 	ln -sf /run/resolv.conf ${IMAGE_ROOTFS}/etc/resolv.conf
