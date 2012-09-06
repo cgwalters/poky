@@ -9,7 +9,7 @@ SECTION = "base"
 LICENSE = "GPLv2+ | BSD"
 LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
 
-PR = "r2"
+PR = "r3"
 
 DEPENDS = "bison flex flex-native cracklib"
 RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
@@ -20,10 +20,7 @@ RRECOMMENDS_${PN} = "libpam-runtime"
 SRC_URI = "${KERNELORG_MIRROR}/linux/libs/pam/library/Linux-PAM-${PV}.tar.bz2 \
            file://99_pam \
            file://pam.d/* \
-           file://libpam-xtests.patch \
-           file://pam-passwd-in-var.patch \
-           file://pam-passwd-in-var-2.patch \
-	   "
+           file://libpam-xtests.patch"
 
 SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch"
 
