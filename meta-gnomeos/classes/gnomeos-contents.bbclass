@@ -71,6 +71,7 @@ RECIPE_PACKAGES = "base-files \
 		   gawk \
 		   gzip \
 		   less \
+		   util-linux \
 		   curl \
 		   tzdata \
 		   libsndfile1 \
@@ -79,6 +80,7 @@ RECIPE_PACKAGES = "base-files \
 		   libpam \
 		   attr \
 		   acl \
+		   bzip2 \
 		   ncurses \
 		   libvorbis \
 		   speex \

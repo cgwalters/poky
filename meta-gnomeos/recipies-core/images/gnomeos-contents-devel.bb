@@ -7,7 +7,30 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
 
 inherit gnomeos-contents
 
-RECIPE_PACKAGES += "task-core-sdk \
+RECIPE_PACKAGES += "autoconf \
+		automake \
+		binutils \
+		binutils-symlinks \
+		coreutils \
+		cpp \
+		cpp-symlinks \
+		ccache \
+		diffutils \
+		gcc \
+		gcc-symlinks \
+		g++ \
+		g++-symlinks \
+		gettext \
+		make \
+		intltool \
+		libtool \
+		perl-module-re \
+		perl-module-text-wrap \
+		pkgconfig \
+		findutils \
+		less \
+		ldd \
+		file \
 		python-dev \
 		bison flex \
 		git \
@@ -16,6 +39,7 @@ RECIPE_PACKAGES += "task-core-sdk \
 		libxml-parser-perl \
 		gettext-dev \
 		libpci-dev \
+		bzip2-dev \
 		"
 
 DEPENDS += "db"
