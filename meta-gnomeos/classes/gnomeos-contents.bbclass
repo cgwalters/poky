@@ -147,7 +147,9 @@ fakeroot do_rootfs () {
 	# Empty out the default passwd file
 	rm -f ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
 	  ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
-	touch ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group
+	touch ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
+	  ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
+	chmod 0600 ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
 	# Delete backup files
 	rm -f ${IMAGE_ROOTFS}/etc/passwd- ${IMAGE_ROOTFS}/etc/group- \
 	  ${IMAGE_ROOTFS}/etc/shadow- ${IMAGE_ROOTFS}/etc/gshadow-
