@@ -59,8 +59,6 @@ RECIPE_PACKAGES = "base-files \
 		   netbase \
 		   busybox \
 		   update-alternatives-cworth \
-		   sysvinit \
-		   initscripts \
 		   coreutils \
 		   gnome-ostree \
 		   strace \
@@ -120,9 +118,30 @@ fakeroot do_rootfs () {
 
 	rootfs_${IMAGE_PKGTYPE}_do_rootfs
 
+	# First, do UsrMove
+	mv ${IMAGE_ROOTFS}/bin/* ${IMAGE_ROOTFS}/usr/bin
+	rmdir ${IMAGE_ROOTFS}/bin
+	ln -s usr/bin ${IMAGE_ROOTFS}/bin
+	mv ${IMAGE_ROOTFS}/sbin/* ${IMAGE_ROOTFS}/usr/sbin
+	rmdir ${IMAGE_ROOTFS}/sbin
+	ln -s usr/sbin ${IMAGE_ROOTFS}/sbin
+
+	# Hack for pam_cap.so which installs in /usr/lib; move it into /lib,
+	# then move everything back.
+	mv ${IMAGE_ROOTFS}/usr/lib/security/* ${IMAGE_ROOTFS}/lib/security
+	# Hack for libattr/libacl; lib/ is symlinks to usr/ ?
+	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la,so}
+
+	mv ${IMAGE_ROOTFS}/lib/* ${IMAGE_ROOTFS}/usr/lib
+	rmdir ${IMAGE_ROOTFS}/lib
+	ln -s usr/lib ${IMAGE_ROOTFS}/lib
+
 	# Delete all of the init scripts; we have our own
 	rm -f ${IMAGE_ROOTFS}/etc/init.d/*
 	rm -f ${IMAGE_ROOTFS}/etc/rc*.d/*
+
+	# And ensure systemd is /sbin/init
+	ln -s ../lib/systemd/systemd ${IMAGE_ROOTFS}/usr/sbin/init
 
 	# Clear out the default fstab; everything we need right now is mounted
 	# in the initramfs.
@@ -166,6 +185,9 @@ EOF
 	sed -i -e '/^passwd:/cpasswd: files altfiles' \
 	       -e '/^group:/cgroup: files altfiles' \
                ${IMAGE_ROOTFS}/etc/nsswitch.conf
+
+	# Ensure we're set up for systemd
+        echo "session optional pam_systemd.so" >> ${IMAGE_ROOTFS}/etc/pam.d/common-session 
 
 	# Adjustments for /etc -> {/var,/run} here
 	ln -sf /run/resolv.conf ${IMAGE_ROOTFS}/etc/resolv.conf
