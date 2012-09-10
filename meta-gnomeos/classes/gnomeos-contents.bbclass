@@ -129,8 +129,9 @@ fakeroot do_rootfs () {
 	# Hack for pam_cap.so which installs in /usr/lib; move it into /lib,
 	# then move everything back.
 	mv ${IMAGE_ROOTFS}/usr/lib/security/* ${IMAGE_ROOTFS}/lib/security
-	# Hack for libattr/libacl; lib/ is symlinks to usr/ ?
-	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la,so}
+	# Undo libattr/libacl weirdness
+	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la}
+	rm -f ${IMAGE_ROOTFS}/usr/lib/lib{acl,attr}.so
 
 	mv ${IMAGE_ROOTFS}/lib/* ${IMAGE_ROOTFS}/usr/lib
 	rmdir ${IMAGE_ROOTFS}/lib
