@@ -40,9 +40,14 @@ IMAGE_INSTALL = "libuuid1 \
 		 util-linux-mount \
 		 util-linux-agetty \
 		 dejavu-fonts-ttf \
+		 kbd \
+		 kbd-consolefonts \
+		 kbd-keymaps \
+		 kbd-unimaps \
 		 "
 
 RDEPENDS += " eglibc-locale \
+	     kbd \
 	     tiff \
 	     libogg \
 	     libvorbis \
