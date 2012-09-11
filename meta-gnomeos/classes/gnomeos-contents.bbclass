@@ -65,7 +65,6 @@ RECIPE_PACKAGES = "base-files \
 		   busybox \
 		   update-alternatives-cworth \
 		   coreutils \
-		   gnome-ostree \
 		   strace \
 		   bash \
 		   tar \
@@ -168,25 +167,18 @@ fakeroot do_rootfs () {
 	# Empty out the default passwd file
 	rm -f ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
 	  ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
-	touch ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
-	  ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
+	# root has no password by default
+	cat > ${IMAGE_ROOTFS}/etc/passwd << EOF
+root::0:0:root:/:/bin/sh
+EOF
+	cat > ${IMAGE_ROOTFS}/etc/group << EOF
+root:x:0:root
+EOF
+	touch ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
 	chmod 0600 ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
 	# Delete backup files
 	rm -f ${IMAGE_ROOTFS}/etc/passwd- ${IMAGE_ROOTFS}/etc/group- \
 	  ${IMAGE_ROOTFS}/etc/shadow- ${IMAGE_ROOTFS}/etc/gshadow-
-	cat > ${IMAGE_ROOTFS}/lib/passwd << EOF
-root::0:0:root:/:/bin/sh
-dbus:*:1:1:dbus:/:/bin/false
-gdm:*:2:2:gdm:/var/lib/gdm:/bin/false
-polkitd:*:3:3:polkitd:/:/bin/false
-EOF
-
-	cat > ${IMAGE_ROOTFS}/lib/group << EOF
-root:*:0:root
-dbus:*:1:
-gdm:*:2:
-polkitd:*:3:
-EOF
 
 	# Add "altfiles" NSS module to /etc/nsswitch.conf
 	sed -i -e '/^passwd:/cpasswd: files altfiles' \
