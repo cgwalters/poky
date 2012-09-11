@@ -83,6 +83,7 @@ RECIPE_PACKAGES = "base-files \
 		   attr \
 		   acl \
 		   bzip2 \
+	     	   xz \
 		   ncurses \
 		   libvorbis \
 		   speex \

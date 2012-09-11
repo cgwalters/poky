@@ -40,6 +40,7 @@ RECIPE_PACKAGES += "autoconf \
 		gettext-dev \
 		libpci-dev \
 		bzip2-dev \
+		xz-dev \
 		"
 
 DEPENDS += "db"
