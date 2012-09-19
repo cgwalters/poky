@@ -142,9 +142,9 @@ fakeroot do_rootfs () {
 	rmdir ${IMAGE_ROOTFS}/lib
 	ln -s usr/lib ${IMAGE_ROOTFS}/lib
 
-	# Delete all of the init scripts; we have our own
-	rm -f ${IMAGE_ROOTFS}/etc/init.d/*
-	rm -f ${IMAGE_ROOTFS}/etc/rc*.d/*
+	# Delete all of the legacy sysvinit scripts; we use systemd
+	rm -rf ${IMAGE_ROOTFS}/etc/init.d
+	rm -rf ${IMAGE_ROOTFS}/etc/rc*.d
 
 	# And ensure systemd is /sbin/init
 	ln -s ../lib/systemd/systemd ${IMAGE_ROOTFS}/usr/sbin/init
