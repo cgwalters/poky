@@ -49,6 +49,7 @@ IMAGE_INSTALL += "libc6-dev \
 	      	  libgcc-s-dev \
 	      	  linux-libc-headers-dev \
 	      	  libz-dev \
+	      	  libgdbm-dev \
 	      	  libtool-dev \
 	          libuuid-dev \
 		  libblkid-dev \

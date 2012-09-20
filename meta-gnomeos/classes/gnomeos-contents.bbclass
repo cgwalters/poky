@@ -15,6 +15,7 @@ IMAGE_INSTALL = "libuuid1 \
 		 e2fsprogs-e2fsck \
 		 e2fsprogs-mke2fs \
 		 e2fsprogs-tune2fs \
+		 libgdbm3 \
 		 libpci3 \
 		 libtiff3 \
 		 libjpeg8 \
@@ -48,6 +49,7 @@ IMAGE_INSTALL = "libuuid1 \
 
 RDEPENDS += " eglibc-locale \
 	     kbd \
+	     gdbm \
 	     tiff \
 	     libogg \
 	     libvorbis \
