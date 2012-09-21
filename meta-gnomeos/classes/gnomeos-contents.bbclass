@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
 
 inherit rootfs_${IMAGE_PKGTYPE}
 
-DEPENDS += "ostree-native"
+do_rootfs[depends] += "ostree-native:do_populate_sysroot"
 
 IMAGE_INSTALL = "libuuid1 \
 	         libblkid1 \
