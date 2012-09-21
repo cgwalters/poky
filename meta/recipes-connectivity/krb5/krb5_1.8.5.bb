@@ -5,7 +5,7 @@ SECTION = "console/network"
 PR = "r0"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${S}/../README;md5=5595a75ae6fab5f825f579a817baa618"
-DEPENDS = "perl-native ncurses util-linux e2fsprogs-native"
+DEPENDS = "perl-native ncurses util-linux e2fsprogs"
 
 inherit autotools binconfig
 
