@@ -36,6 +36,7 @@ RECIPE_PACKAGES += "autoconf \
 		git \
 		gdb \
 		zip \
+		ruby \
 		libxml-parser-perl \
 		gettext-dev \
 		libpci-dev \
