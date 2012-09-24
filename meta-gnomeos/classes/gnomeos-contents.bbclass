@@ -19,6 +19,7 @@ IMAGE_INSTALL = "libuuid1 \
 		 libpci3 \
 		 libtiff3 \
 		 libjpeg8 \
+		 libexif12 \
 		 libltdl7 \
                  libstdc++6 \
                  libgnutls26 \

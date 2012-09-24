@@ -57,6 +57,7 @@ IMAGE_INSTALL += "libc6-dev \
 		  libpam-dev \
 		  libtiff-dev \
 		  libjpeg-dev \
+		  libexif-dev \
 		  libltdl-dev \
 		  libsndfile-dev \
 		  libatomics-ops-dev \
