@@ -52,6 +52,7 @@ RDEPENDS += " eglibc-locale \
 	     kbd \
 	     gdbm \
 	     tiff \
+	     libexif \
 	     libogg \
 	     libvorbis \
 	     speex \
