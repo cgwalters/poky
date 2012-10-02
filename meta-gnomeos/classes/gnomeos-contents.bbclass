@@ -6,102 +6,15 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 inherit rootfs_${IMAGE_PKGTYPE}
-
+ 
 do_rootfs[depends] += "ostree-native:do_populate_sysroot"
 
-IMAGE_INSTALL = "libuuid1 \
-	         libblkid1 \
-		 e2fsprogs-fsck \
-		 e2fsprogs-e2fsck \
-		 e2fsprogs-mke2fs \
-		 e2fsprogs-tune2fs \
-		 libgdbm3 \
-		 libpci3 \
-		 libtiff3 \
-		 libjpeg8 \
-		 libexif12 \
-		 libltdl7 \
-                 libstdc++6 \
-                 libgnutls26 \
-                 libogg0 \
-		 eglibc-gconvs \
-		 eglibc-binaries \
-		 pam-plugin-cracklib \
-		 pam-plugin-env \
-		 pam-plugin-keyinit \
-		 pam-plugin-limits \
-		 pam-plugin-localuser \
-		 pam-plugin-loginuid \
-		 pam-plugin-unix \
-		 pam-plugin-rootok \
-		 pam-plugin-succeed-if \
-		 pam-plugin-permit \
-		 pam-plugin-nologin \
-		 ncurses-terminfo-base \
-		 cpio \
-		 util-linux-mount \
-		 util-linux-agetty \
-		 dejavu-fonts-ttf \
-		 kbd \
-		 kbd-consolefonts \
-		 kbd-keymaps \
-		 kbd-unimaps \
-		 "
+PACKAGE_INSTALL += " \
+		task-gnomeos-contents-runtime \
+		libltdl7 \
+		"
+		
 
-RDEPENDS += " eglibc-locale \
-	     kbd \
-	     gdbm \
-	     tiff \
-	     libogg \
-	     libvorbis \
-	     speex \
-	     cpio \
-	     libatomics-ops \
-	     cracklib \
-	     pciutils \
-	     libtool \
-	    "
-
-RECIPE_PACKAGES = "base-files \
-		   base-passwd \
-		   netbase \
-		   busybox \
-		   update-alternatives-cworth \
-		   coreutils \
-		   strace \
-		   bash \
-		   tar \
-		   grep \
-		   gawk \
-		   gzip \
-		   less \
-		   util-linux \
-		   curl \
-		   tzdata \
-		   libsndfile1 \
-		   icu \
-		   procps \
-		   libpam \
-		   attr \
-		   acl \
-		   bzip2 \
-	     	   xz \
-		   ncurses \
-		   libvorbis \
-		   speex \
-		   python-modules \
-		   python-misc \
-		   openssh \
-		   krb5 \
-		   dejavu-fonts-ttf \
-		   module-init-tools \
-		   e2fsprogs-blkid \
-		   nss-altfiles \
-		   "
-
-PACKAGE_INSTALL = "${RECIPE_PACKAGES} ${IMAGE_INSTALL}"
-
-RDEPENDS += "${RECIPE_PACKAGES}"
 DEPENDS += "makedevs-native virtual/fakeroot-native"
 
 EXCLUDE_FROM_WORLD = "1"
