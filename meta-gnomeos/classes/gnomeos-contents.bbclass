@@ -159,7 +159,7 @@ EOF
 	    echo "error: unknown machine from ${MACHINE_ARCH}"; exit 1
 	  fi
 	fi
-	buildroot=gnomeos-3.6-${ostree_machine}-${ostree_target}
+	buildroot=gnomeos-3.8-${ostree_machine}-${ostree_target}
 	base=bases/yocto/${buildroot}
 	repo=${DEPLOY_DIR_IMAGE}/repo
 	mkdir -p ${repo}
