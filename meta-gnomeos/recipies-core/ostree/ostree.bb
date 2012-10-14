@@ -2,7 +2,7 @@ SUMMARY = "Linux-based operating system development and deployment tool"
 LICENSE = "LGPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=97285cb818cf231e6a36f72c82592235"
 
-PV= "2012.11.11.gee73c0f"
+PV= "2012.11.23.g0d04738"
 PR= "r0"
 
 SRC_URI = "http://people.gnome.org/~walters/ostree-${PV}.tar.gz"
