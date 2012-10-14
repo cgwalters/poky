@@ -6,7 +6,7 @@ PV= "2012.11.23.g0d04738"
 PR= "r0"
 
 SRC_URI = "http://people.gnome.org/~walters/ostree-${PV}.tar.gz"
-SRC_URI[sha256sum] = "2685b6a30b73829192a64c2368fef6ac77f78b84b88da30391f1d9912376a8fb"
+SRC_URI[sha256sum] = "530fc9ad7c5dd4d7ed1cababa578288d112d803144d8176a25df45906f568e95"
 #SRC_URI = "git:///src/ostree;tag=40ebccb55ea80437d795eec57cca03ce45cba0cd"
 #S = "${WORKDIR}/git"
 
