@@ -23,7 +23,7 @@ EXTRA_OECONF += " --without-tcl krb5_cv_attr_constructor_destructor=yes ac_cv_fu
 CFLAGS_append += "-DDESTRUCTOR_ATTR_WORKS=1 -I${STAGING_INCDIR}/et"
 LDFLAGS_append += "-lpthread"
 
-FILES_${PN}-doc += /usr/share/examples
+FILES_${PN}-doc += "/usr/share/examples"
 
 krb5_do_unpack() {
        tar xzf ${WORKDIR}/krb5-1.8.5.tar.gz -C ${WORKDIR}/
