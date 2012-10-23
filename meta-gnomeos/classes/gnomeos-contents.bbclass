@@ -22,7 +22,7 @@ do_rootfs[nostamp] = "1"
 do_rootfs[dirs] = "${TOPDIR}"
 do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
 do_build[nostamp] = "1"
-do_rootfs[umask] = 022
+do_rootfs[umask] = "022"
 
 def gnomeos_get_devtable_list(d):
     return bb.which(d.getVar('BBPATH', 1), 'files/device_table-minimal.txt')
