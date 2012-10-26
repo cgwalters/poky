@@ -46,9 +46,6 @@ fakeroot do_rootfs () {
 	rmdir ${IMAGE_ROOTFS}/sbin
 	ln -s usr/sbin ${IMAGE_ROOTFS}/sbin
 
-	# Hack for pam_cap.so which installs in /usr/lib; move it into /lib,
-	# then move everything back.
-	mv ${IMAGE_ROOTFS}/usr/lib/security/* ${IMAGE_ROOTFS}/lib/security
 	# Undo libattr/libacl weirdness
 	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la}
 	rm -f ${IMAGE_ROOTFS}/usr/lib/lib{acl,attr}.so
@@ -75,9 +72,6 @@ fakeroot do_rootfs () {
 	# directory is just a bind mount to /sysroot.
 	rm -rf ${IMAGE_ROOTFS}/lib/modules
 	mkdir -p ${IMAGE_ROOTFS}/lib/modules
-
-	# Random configuration changes here
-	sed -i -e 's,^DESTINATION=.*,DESTINATION=\"file\",' ${IMAGE_ROOTFS}/etc/syslog.conf
 
 	# Empty out the default passwd file
 	rm -f ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
@@ -187,3 +181,12 @@ do_package_write_deb[noexec] = "1"
 do_package_write_rpm[noexec] = "1"
 
 addtask rootfs before do_build
+
+# stub out for now
+rootfs_install_all_locales () {
+    true
+}
+
+rootfs_install_complementary () {
+    true
+}

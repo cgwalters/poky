@@ -47,13 +47,11 @@ RDEPENDS += "     \
 	 libpci-dev \
 	 bzip2-dev \
 	 xz-dev \
-	 libc6-dev \
 	 linux-libc-headers-dev \
 	 zlib-dev \
 	 gdbm-dev \
 	 libtool-dev \
 	 util-linux-libuuid-dev \
-	 util-linux-libblkid-dev \
 	 libpam-dev \
 	 tiff-dev \
 	 jpeg-dev \
@@ -64,6 +62,7 @@ RDEPENDS += "     \
 	 libogg-dev \
 	 speex-dev \
 	 libvorbis-dev \
+	 libssp-dev \
 	 libstdc++-dev \
 	 libcap-dev \
 	 libcap-bin \
@@ -82,5 +81,3 @@ RDEPENDS += "     \
 	 e2fsprogs-dev \
 	 krb5-dev \
 	 "
-
-

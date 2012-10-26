@@ -12,8 +12,7 @@ PR = "1"
 
 RDEPENDS += "\
 	 util-linux-libuuid \
-	 util-linux-libblkid \
-	 e2fsprogs-fsck \
+	 util-linux-blkid \
 	 e2fsprogs-e2fsck \
 	 e2fsprogs-mke2fs \
 	 e2fsprogs-tune2fs \
@@ -25,6 +24,7 @@ RDEPENDS += "\
 	 libstdc++ \
 	 gnutls \
 	 libogg \
+	 libssp \
 	 eglibc-gconvs \
 	 eglibc-binaries \
 	 pam-plugin-cracklib \
@@ -92,6 +92,5 @@ RDEPENDS += "\
 	 krb5 \
 	 dejavu-fonts-ttf \
 	 module-init-tools \
-	 e2fsprogs-blkid \
 	 nss-altfiles \
 	 "
