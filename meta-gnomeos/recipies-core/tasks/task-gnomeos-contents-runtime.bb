@@ -27,6 +27,7 @@ RDEPENDS += "\
 	 libssp \
 	 eglibc-gconvs \
 	 eglibc-binaries \
+	 eglibc-localedata-en-us \
 	 pam-plugin-cracklib \
 	 pam-plugin-env \
 	 pam-plugin-keyinit \
@@ -47,7 +48,6 @@ RDEPENDS += "\
 	 kbd-consolefonts \
 	 kbd-keymaps \
 	 kbd-unimaps \
-	 eglibc-locale \
 	 kbd \
 	 gdbm \
 	 tiff \
