@@ -7,6 +7,7 @@ SECTION = "libs"
 LICENSE = "LGPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=fb1949d8d807e528c1673da700aff41f"
 SRC_URI = "http://github.com/downloads/aperezdc/${PN}/${PN}-${PV}.tar.xz"
+SRC_URI[sha256sum] = "53d26e6a4cdb1b662098db5b6dfa71701eeb957299895d021098f135ef3e4ad6"
 
 PV = "2.13.2"
 PR = "r1"
