@@ -49,7 +49,7 @@ fakeroot do_rootfs () {
 	# trying to do ../usr/
 	for d in ${IMAGE_ROOTFS}/usr/bin ${IMAGE_ROOTFS}/usr/sbin; do
 	    find $d -maxdepth 1 -type l | while read f; do
-	        target=$(readlink $l)
+	        target=$(readlink $f)
 	        fixed_target=$(echo $target | sed -e 's,^[.][.]/usr,,')
 		ln -sf $fixed_target $f
 	    done
