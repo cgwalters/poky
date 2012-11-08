@@ -56,6 +56,7 @@ RDEPENDS += "\
 	 speex \
 	 cpio \
 	 libatomics-ops \
+	 alsa-lib \
 	 cracklib \
 	 pciutils \
 	 base-files \

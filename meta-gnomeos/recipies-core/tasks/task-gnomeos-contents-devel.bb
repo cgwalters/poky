@@ -59,6 +59,7 @@ RDEPENDS += "     \
 	 libtool-dev \
 	 libsndfile1-dev \
 	 libatomics-ops-dev \
+	 alsa-dev \
 	 libogg-dev \
 	 speex-dev \
 	 libvorbis-dev \
