@@ -45,6 +45,15 @@ fakeroot do_rootfs () {
 	mv ${IMAGE_ROOTFS}/sbin/* ${IMAGE_ROOTFS}/usr/sbin
 	rmdir ${IMAGE_ROOTFS}/sbin
 	ln -s usr/sbin ${IMAGE_ROOTFS}/sbin
+	# Now, we need to fix up any symbolic links that were
+	# trying to do ../usr/
+	for d in ${IMAGE_ROOTFS}/usr/bin ${IMAGE_ROOTFS}/usr/sbin; do
+	    find $d -maxdepth 1 -type l | while read f; do
+	        target=$(readlink $l)
+	        fixed_target=$(echo $target | sed -e 's,^[.][.]/usr,,')
+		ln -sf $fixed_target $f
+	    done
+	done
 
 	# Undo libattr/libacl weirdness
 	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la}
