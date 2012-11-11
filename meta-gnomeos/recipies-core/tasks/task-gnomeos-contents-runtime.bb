@@ -65,6 +65,7 @@ RDEPENDS += "\
 	 busybox \
 	 update-alternatives-cworth \
 	 coreutils \
+	 sed \
 	 findutils \
 	 strace \
 	 bash \
