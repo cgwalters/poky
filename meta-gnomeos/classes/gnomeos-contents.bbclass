@@ -12,6 +12,7 @@ do_rootfs[depends] += "ostree-native:do_populate_sysroot"
 PACKAGE_INSTALL += " \
 		task-gnomeos-contents-runtime \
 		libltdl7 \
+		libllvm-llvmcore \
 		"
 
 DEPENDS += "task-gnomeos-contents-runtime makedevs-native virtual/fakeroot-native"
