@@ -157,15 +157,11 @@ EOF
 	else
 	   ostree_target=devel
 	fi
-	if test x${MACHINE_ARCH} = xqemux86; then
-	   ostree_machine=i686
-	else
-	  if test x${MACHINE_ARCH} = xqemux86_64; then
-	    ostree_machine=x86_64
-	  else
-	    echo "error: unknown machine from ${MACHINE_ARCH}"; exit 1
-	  fi
-	fi
+	case "${MACHINE_ARCH}" in
+	  qemux86|atom_pc|core2) ostree_machine=i686;;
+	  qemux86_64|core2-64) ostree_machine=x86_64;;
+	  *) echo "error: unknown machine from ${MACHINE_ARCH}"; exit 1;;
+        esac
 	buildroot=gnomeos-3.8-${ostree_machine}-${ostree_target}
 	base=bases/yocto/${buildroot}
 	repo=${DEPLOY_DIR_IMAGE}/repo
