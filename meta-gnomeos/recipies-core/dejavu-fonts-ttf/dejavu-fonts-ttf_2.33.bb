@@ -6,7 +6,7 @@ of collaborative development (see authors), under a Free license."
 SECTION = "x11/fonts"
 LICENSE = "Bitstream_Vera"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9f867da7a73fad2715291348e80d0763"
-PR = "r1"
+PR = "r2"
 RDEPENDS_${PN} = "fontconfig-utils"
 
 inherit allarch
@@ -14,15 +14,16 @@ inherit allarch
 SRC_URI = "${SOURCEFORGE_MIRROR}/dejavu/${PN}-${PV}.tar.bz2"
 
 do_install () {
-        install -d "${D}${prefix}/share/fonts/ttf/"
+        install -d -m 0755 "${D}${prefix}/share/fonts"
+        install -d -m 0755 "${D}${prefix}/share/fonts/ttf/"
         for i in ttf/*.ttf; do
                 install -m 644 $i "${D}${prefix}/share/fonts/${i}"
         done
 
-        install -d "${D}${sysconfdir}/fonts"
+        install -d -m 0755 "${D}${sysconfdir}/fonts"
         install -m 644 fontconfig/*.conf "${D}${sysconfdir}/fonts/"
 
-        install -d "${D}${prefix}/share/doc/${PN}/"
+        install -d -m 0755 "${D}${prefix}/share/doc/${PN}/"
         for i in *.txt README AUTHORS NEWS; do
                 install -m 644 "$i" "${D}${prefix}/share/doc/${PN}/$i"
         done
