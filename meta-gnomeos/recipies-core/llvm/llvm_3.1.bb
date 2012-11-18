@@ -1,8 +1,13 @@
 require llvm.inc
 
-PR = "${INC_PR}.0"
+PR = "${INC_PR}.2"
 
 PARALLEL_MAKE_virtclass-native = ""
+
+# Build without -ftree-pre as a workaround for clang segfaulting on x86_64.
+# https://bugzilla.redhat.com/show_bug.cgi?id=791365
+OECMAKE_C_FLAGS_RELEASE += " -fno-tree-pre"
+OECMAKE_CXX_FLAGS += " -fno-tree-pre"
 
 EXTRA_OECMAKE = "\
   -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
