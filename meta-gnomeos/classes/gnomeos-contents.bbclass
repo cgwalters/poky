@@ -47,6 +47,11 @@ fakeroot do_rootfs () {
 	rmdir ${IMAGE_ROOTFS}/bin
 	ln -s usr/bin ${IMAGE_ROOTFS}/bin
 	mv ${IMAGE_ROOTFS}/sbin/* ${IMAGE_ROOTFS}/usr/sbin
+	if test -d ${IMAGE_ROOTFS}/sbin/.debug; then
+	  mkdir -p ${IMAGE_ROOTFS}/usr/sbin/.debug
+	  mv ${IMAGE_ROOTFS}/sbin/.debug/* ${IMAGE_ROOTFS}/usr/sbin/.debug
+	  rmdir ${IMAGE_ROOTFS}/sbin/.debug
+	fi
 	rmdir ${IMAGE_ROOTFS}/sbin
 	ln -s usr/sbin ${IMAGE_ROOTFS}/sbin
 	# Now, we need to fix up any symbolic links that were
@@ -64,6 +69,11 @@ fakeroot do_rootfs () {
 	rm -f ${IMAGE_ROOTFS}/usr/lib/lib{acl,attr}.so
 
 	mv ${IMAGE_ROOTFS}/lib/* ${IMAGE_ROOTFS}/usr/lib
+	if test -d ${IMAGE_ROOTFS}/lib/.debug; then
+	  mkdir -p ${IMAGE_ROOTFS}/usr/lib/.debug
+	  mv ${IMAGE_ROOTFS}/lib/.debug/* ${IMAGE_ROOTFS}/usr/lib/.debug
+	  rmdir ${IMAGE_ROOTFS}/lib/.debug
+	fi
 	rmdir ${IMAGE_ROOTFS}/lib
 	ln -s usr/lib ${IMAGE_ROOTFS}/lib
 
