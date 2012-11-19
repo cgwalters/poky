@@ -36,6 +36,8 @@ RDEPENDS += "     \
 	 less \
 	 ldd \
 	 file \
+	 elfutils \
+	 valgrind \
 	 python-dev \
 	 bison flex \
 	 git \
