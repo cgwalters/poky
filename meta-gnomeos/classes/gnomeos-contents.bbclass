@@ -145,12 +145,6 @@ EOF
 	rm -rf ${IMAGE_ROOTFS}
 	mv ${WORKDIR}/gnomeos-contents ${IMAGE_ROOTFS}
 
-	# Keep a copy of what ended up in /var
-	VARDATA_DEST=${IMAGE_NAME}.vardata.tar.gz
-	(cd ${IMAGE_ROOTFS}/var && tar -zcv -f ${WORKDIR}/${VARDATA_DEST} .)	
-	echo "Created ${VARDATA_DEST}"
-	mv ${WORKDIR}/${VARDATA_DEST} ${DEPLOY_DIR_IMAGE}/
-
 	DEST=${IMAGE_NAME}.rootfs.tar.gz
 	(cd ${IMAGE_ROOTFS} && tar -zcv -f ${WORKDIR}/$DEST .)
 	echo "Created $DEST"
