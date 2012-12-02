@@ -174,7 +174,6 @@ EOF
 	   ostree --repo=${repo} init --archive
         fi
 	ostree --repo=${repo} commit -s "${IMAGE_LINK_NAME}" --skip-if-unchanged "Build" -b ${base} --tree=tar=${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.tar.gz
-	ostree --repo=${repo} diff "${base}" || true
 }
 
 log_check() {
