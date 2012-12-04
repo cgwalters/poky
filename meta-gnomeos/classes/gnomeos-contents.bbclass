@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
 inherit rootfs_${IMAGE_PKGTYPE}
  
 do_rootfs[depends] += "ostree-native:do_populate_sysroot"
+do_rootfs[depends] += "linux-yocto:do_deploy"
 
 PACKAGE_INSTALL += " \
 		task-gnomeos-contents-runtime \
