@@ -10,6 +10,8 @@ ALLOW_EMPTY = "1"
 
 PR = "1"
 
+DEPENDS += " linux-yocto"
+
 RDEPENDS += "\
 	 util-linux-libuuid \
 	 util-linux-blkid \

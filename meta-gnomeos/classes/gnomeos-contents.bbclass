@@ -42,59 +42,12 @@ fakeroot do_rootfs () {
 
 	rootfs_${IMAGE_PKGTYPE}_do_rootfs
 
-	# First, do UsrMove
-	mv ${IMAGE_ROOTFS}/bin/* ${IMAGE_ROOTFS}/usr/bin
-	rmdir ${IMAGE_ROOTFS}/bin
-	ln -s usr/bin ${IMAGE_ROOTFS}/bin
-	mv ${IMAGE_ROOTFS}/sbin/* ${IMAGE_ROOTFS}/usr/sbin
-	if test -d ${IMAGE_ROOTFS}/sbin/.debug; then
-	  mkdir -p ${IMAGE_ROOTFS}/usr/sbin/.debug
-	  mv ${IMAGE_ROOTFS}/sbin/.debug/* ${IMAGE_ROOTFS}/usr/sbin/.debug
-	  rmdir ${IMAGE_ROOTFS}/sbin/.debug
-	fi
-	rmdir ${IMAGE_ROOTFS}/sbin
-	ln -s usr/sbin ${IMAGE_ROOTFS}/sbin
-	# Now, we need to fix up any symbolic links that were
-	# trying to do ../usr/
-	for d in ${IMAGE_ROOTFS}/usr/bin ${IMAGE_ROOTFS}/usr/sbin; do
-	    find $d -maxdepth 1 -type l | while read f; do
-	        target=$(readlink $f)
-	        fixed_target=$(echo $target | sed -e 's,^[.][.]/usr,,')
-		ln -sf $fixed_target $f
-	    done
-	done
-
-	# Undo libattr/libacl weirdness
-	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la}
-	rm -f ${IMAGE_ROOTFS}/usr/lib/lib{acl,attr}.so
-
-	mv ${IMAGE_ROOTFS}/lib/* ${IMAGE_ROOTFS}/usr/lib
-	if test -d ${IMAGE_ROOTFS}/lib/.debug; then
-	  mkdir -p ${IMAGE_ROOTFS}/usr/lib/.debug
-	  mv ${IMAGE_ROOTFS}/lib/.debug/* ${IMAGE_ROOTFS}/usr/lib/.debug
-	  rmdir ${IMAGE_ROOTFS}/lib/.debug
-	fi
-	rmdir ${IMAGE_ROOTFS}/lib
-	ln -s usr/lib ${IMAGE_ROOTFS}/lib
-
 	# Delete all of the legacy sysvinit scripts; we use systemd
 	rm -rf ${IMAGE_ROOTFS}/etc/init.d
 	rm -rf ${IMAGE_ROOTFS}/etc/rc*.d
 
-	# And ensure systemd is /sbin/init
-	ln -s ../lib/systemd/systemd ${IMAGE_ROOTFS}/usr/sbin/init
-
-	# Clear out the default fstab; everything we need right now is mounted
-	# in the initramfs.
-	cat < /dev/null > ${IMAGE_ROOTFS}/etc/fstab
-
 	# Kill the Debian netbase stuff - we use NetworkManager
 	rm -rf ${IMAGE_ROOTFS}/etc/network
-
-	# We deploy kernels via an external mechanism; the modules
-	# directory is just a bind mount to /sysroot.
-	rm -rf ${IMAGE_ROOTFS}/lib/modules
-	mkdir -p ${IMAGE_ROOTFS}/lib/modules
 
 	# Empty out the default passwd file
 	rm -f ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
@@ -126,10 +79,65 @@ EOF
 	# Fix un-world-readable config file; no idea why this isn't. 
 	chmod a+r ${IMAGE_ROOTFS}/etc/securetty
 
+	# Clear out the default fstab; everything we need right now is mounted
+	# in the initramfs.
+	cat < /dev/null > ${IMAGE_ROOTFS}/etc/fstab
+
+	# Do the kernel and modules
+	KERNEL_VERSION=3.4.11-yocto-standard
+	mkdir -p ${IMAGE_ROOTFS}/boot
+	cp -p ${DEPLOY_DIR_IMAGE}/bzImage-${KERNEL_VERSION} ${IMAGE_ROOTFS}/boot/vmlinuz-${KERNEL_VERSION}
+	echo "Extracting modules.tgz"
+	tar -x -C "${IMAGE_ROOTFS}" -z -f ${DEPLOY_DIR_IMAGE}/modules-${KERNEL_VERSION}.tgz
+
+	# Do UsrMove for bin and sbin
+	mv ${IMAGE_ROOTFS}/bin/* ${IMAGE_ROOTFS}/usr/bin
+	if test -d ${IMAGE_ROOTFS}/bin/.debug; then
+	  mkdir -p ${IMAGE_ROOTFS}/usr/bin/.debug
+	  mv ${IMAGE_ROOTFS}/bin/.debug/* ${IMAGE_ROOTFS}/usr/bin/.debug
+	  rmdir ${IMAGE_ROOTFS}/bin/.debug
+	fi
+	rmdir ${IMAGE_ROOTFS}/bin
+	ln -s usr/bin ${IMAGE_ROOTFS}/bin
+	mv ${IMAGE_ROOTFS}/sbin/* ${IMAGE_ROOTFS}/usr/sbin
+	if test -d ${IMAGE_ROOTFS}/sbin/.debug; then
+	  mkdir -p ${IMAGE_ROOTFS}/usr/sbin/.debug
+	  mv ${IMAGE_ROOTFS}/sbin/.debug/* ${IMAGE_ROOTFS}/usr/sbin/.debug
+	  rmdir ${IMAGE_ROOTFS}/sbin/.debug
+	fi
+	rmdir ${IMAGE_ROOTFS}/sbin
+	ln -s usr/sbin ${IMAGE_ROOTFS}/sbin
+	# Now, we need to fix up any symbolic links that were
+	# trying to do ../usr/
+	for d in ${IMAGE_ROOTFS}/usr/bin ${IMAGE_ROOTFS}/usr/sbin; do
+	    find $d -maxdepth 1 -type l | while read f; do
+	        target=$(readlink $f)
+	        fixed_target=$(echo $target | sed -e 's,^[.][.]/usr,,')
+		ln -sf $fixed_target $f
+	    done
+	done
+
+	# Undo libattr/libacl weirdness
+	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la}
+	rm -f ${IMAGE_ROOTFS}/usr/lib/lib{acl,attr}.so
+
+	# Complete UsrMove for lib
+	mv ${IMAGE_ROOTFS}/lib/* ${IMAGE_ROOTFS}/usr/lib
+	if test -d ${IMAGE_ROOTFS}/lib/.debug; then
+	  mkdir -p ${IMAGE_ROOTFS}/usr/lib/.debug
+	  mv ${IMAGE_ROOTFS}/lib/.debug/* ${IMAGE_ROOTFS}/usr/lib/.debug
+	  rmdir ${IMAGE_ROOTFS}/lib/.debug
+	fi
+	rmdir ${IMAGE_ROOTFS}/lib
+	ln -s usr/lib ${IMAGE_ROOTFS}/lib
+
+	# And ensure systemd is /sbin/init
+	ln -s ../lib/systemd/systemd ${IMAGE_ROOTFS}/usr/sbin/init
+
 	TOPROOT_BIND_MOUNTS="home root tmp"
 	OSTREE_BIND_MOUNTS="var"
 	OSDIRS="dev proc mnt media run sys sysroot"
-	READONLY_BIND_MOUNTS="bin etc lib sbin usr"
+	READONLY_BIND_MOUNTS="boot bin etc lib sbin usr"
 	
 	rm -rf ${WORKDIR}/gnomeos-contents
 	mkdir ${WORKDIR}/gnomeos-contents
