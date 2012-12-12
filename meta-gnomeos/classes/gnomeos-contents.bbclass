@@ -154,18 +154,12 @@ EOF
 	rm -rf ${IMAGE_ROOTFS}
 	mv ${WORKDIR}/gnomeos-contents ${IMAGE_ROOTFS}
 
-	DEST=${IMAGE_NAME}.rootfs.tar.gz
-	(cd ${IMAGE_ROOTFS} && tar -zcv -f ${WORKDIR}/$DEST .)
-	echo "Created $DEST"
-	mv ${WORKDIR}/$DEST ${DEPLOY_DIR_IMAGE}/
-	cd ${DEPLOY_DIR_IMAGE}/
-	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.tar.gz
-	ln -s ${IMAGE_NAME}.rootfs.tar.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.tar.gz
-	echo "Created ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.tar.gz"
+	DEST=${WORKDIR}${IMAGE_NAME}.rootfs.tar.gz
+	(cd ${IMAGE_ROOTFS} && tar -zcv -f ${DEST} .)
 
 	set -x
 
-	if echo ${IMAGE_LINK_NAME} | grep -q -e -runtime; then
+	if echo ${IMAGE_NAME} | grep -q -e -runtime; then
 	   ostree_target=runtime
 	else
 	   ostree_target=devel
@@ -182,7 +176,9 @@ EOF
 	if ! test -d ${repo}/objects; then
 	   ostree --repo=${repo} init --archive
         fi
-	ostree --repo=${repo} commit -s "${IMAGE_LINK_NAME}" --skip-if-unchanged "Build" -b ${base} --tree=tar=${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.tar.gz
+	ostree --repo=${repo} commit -s "${IMAGE_NAME}" --skip-if-unchanged "Build" -b ${base} --tree=tar=${DEST}
+
+	rm -f ${DEST}
 }
 
 log_check() {
