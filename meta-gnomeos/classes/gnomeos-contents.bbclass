@@ -146,13 +146,19 @@ EOF
 	for d in $TOPROOT_BIND_MOUNTS $OSTREE_BIND_MOUNTS $OSDIRS; do
 	    mkdir $d
 	done
-	chmod a=rwxt tmp
 
 	for d in $READONLY_BIND_MOUNTS; do
             mv ${IMAGE_ROOTFS}/$d .
 	done
 	rm -rf ${IMAGE_ROOTFS}
 	mv ${WORKDIR}/gnomeos-contents ${IMAGE_ROOTFS}
+
+	# Ok, let's globally fix permissions; everything is root owned,
+	# all directories are u=rwx,og=rx, except for /root, and /tmp is sticky
+	chown -R -h 0:0 ${IMAGE_ROOTFS} 
+	find ${IMAGE_ROOTFS} -type d -exec chmod u=rwx,og=rx "{}" \;
+	chmod a=rwxt ${IMAGE_ROOTFS}/tmp
+	chmod go-rwx ${IMAGE_ROOTFS}/root
 
 	DEST=${WORKDIR}${IMAGE_NAME}.rootfs.tar.gz
 	(cd ${IMAGE_ROOTFS} && tar -zcv -f ${DEST} .)
