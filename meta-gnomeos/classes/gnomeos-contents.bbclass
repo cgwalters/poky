@@ -12,6 +12,7 @@ do_rootfs[depends] += "linux-yocto:do_deploy"
 
 PACKAGE_INSTALL += " \
 		task-gnomeos-contents-runtime \
+		ldd \
 		libltdl7 \
 		libllvm-llvmcore \
 		"
