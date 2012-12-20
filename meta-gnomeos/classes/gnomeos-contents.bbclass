@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
 
 inherit rootfs_${IMAGE_PKGTYPE}
  
-do_rootfs[depends] += "ostree-native:do_populate_sysroot"
 do_rootfs[depends] += "linux-yocto:do_deploy"
 
 PACKAGE_INSTALL += " \
@@ -161,31 +160,11 @@ EOF
 	chmod a=rwxt ${IMAGE_ROOTFS}/tmp
 	chmod go-rwx ${IMAGE_ROOTFS}/root
 
-	DEST=${WORKDIR}${IMAGE_NAME}.rootfs.tar.gz
+	IMAGE_NAME_NODATE=${IMAGE_BASENAME}-${MACHINE}.tar.gz
+	DEST=${WORKDIR}/${IMAGE_NAME_NODATE}
 	(cd ${IMAGE_ROOTFS} && tar -zcv -f ${DEST} .)
 
-	set -x
-
-	if echo ${IMAGE_NAME} | grep -q -e -runtime; then
-	   ostree_target=runtime
-	else
-	   ostree_target=devel
-	fi
-	case "${MACHINE_ARCH}" in
-	  qemux86|atom_pc|core2) ostree_machine=i686;;
-	  qemux86_64|core2-64) ostree_machine=x86_64;;
-	  *) echo "error: unknown machine from ${MACHINE_ARCH}"; exit 1;;
-        esac
-	buildroot=gnomeos-3.8-${ostree_machine}-${ostree_target}
-	base=bases/yocto/${buildroot}
-	repo=${DEPLOY_DIR_IMAGE}/repo
-	mkdir -p ${repo}
-	if ! test -d ${repo}/objects; then
-	   ostree --repo=${repo} init --archive
-        fi
-	ostree --repo=${repo} commit -s "${IMAGE_NAME}" --skip-if-unchanged "Build" -b ${base} --tree=tar=${DEST}
-
-	rm -f ${DEST}
+	mv ${DEST} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME_NODATE}
 }
 
 log_check() {
