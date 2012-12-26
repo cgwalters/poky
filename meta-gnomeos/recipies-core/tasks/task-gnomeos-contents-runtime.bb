@@ -10,7 +10,7 @@ ALLOW_EMPTY = "1"
 
 PR = "1"
 
-DEPENDS += " linux-yocto"
+DEPENDS += " linux-gnome-ostree"
 
 RDEPENDS += "\
 	 util-linux-libuuid \

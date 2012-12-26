@@ -6,8 +6,10 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 inherit rootfs_${IMAGE_PKGTYPE}
- 
-do_rootfs[depends] += "linux-yocto:do_deploy"
+
+OSTREE_ROOTFS_KERNEL_VERSION = "3.6.0-gnome-ostree"
+
+do_rootfs[depends] += "linux-gnome-ostree:do_deploy"
 
 PACKAGE_INSTALL += " \
 		task-gnomeos-contents-runtime \
@@ -83,11 +85,10 @@ EOF
 	cat < /dev/null > ${IMAGE_ROOTFS}/etc/fstab
 
 	# Do the kernel and modules
-	KERNEL_VERSION=3.4.11-yocto-standard
 	mkdir -p ${IMAGE_ROOTFS}/boot
-	cp -p ${DEPLOY_DIR_IMAGE}/bzImage-${KERNEL_VERSION} ${IMAGE_ROOTFS}/boot/vmlinuz-${KERNEL_VERSION}
+	cp -p ${DEPLOY_DIR_IMAGE}/bzImage-${OSTREE_ROOTFS_KERNEL_VERSION} ${IMAGE_ROOTFS}/boot/vmlinuz-${OSTREE_ROOTFS_KERNEL_VERSION}
 	echo "Extracting modules.tgz"
-	tar -x -C "${IMAGE_ROOTFS}" -z -f ${DEPLOY_DIR_IMAGE}/modules-${KERNEL_VERSION}.tgz
+	tar -x -C "${IMAGE_ROOTFS}" -z -f ${DEPLOY_DIR_IMAGE}/modules-${OSTREE_ROOTFS_KERNEL_VERSION}.tgz
 
 	# Do UsrMove for bin and sbin
 	mv ${IMAGE_ROOTFS}/bin/* ${IMAGE_ROOTFS}/usr/bin
