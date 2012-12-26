@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=60fdd7739841f04a2ce2171a726be8f3"
 DEPENDS = "llvm-native"
 DEPENDS_virtclass-native = "cmake-native"
 
-INC_PR = "r0"
+INC_PR = "r1"
 
 SRC_URI = "http://llvm.org/releases/${PV}/llvm-${PV}.src.tar.gz"
 
@@ -48,8 +48,6 @@ EXTRA_OECMAKE = "\
 # We need to reset this to avoid breakage as we build out of tree
 TOOLCHAIN_OPTIONS = ""
 
-PACKAGES_DYNAMIC = "llvm-*"
-
 # the difference to the non-native build is that we do not need
 # to declare the location of the tblgen executable.
 EXTRA_OECMAKE_virtclass-native = "\
@@ -67,12 +65,9 @@ PACKAGES_virtclass-native = ""
 
 PACKAGES_DYNAMIC_virtclass-native = ""
 
-python populate_packages_prepend () {
-    do_split_packages(d, bb.data.expand('${libdir}', d), '^lib(.*)\.so$', 'libllvm-%s', 'Split package for %s', allow_dirs=True)
-}
-
-FILES_${PN} = ""
-ALLOW_EMPTY_${PN} = "1"
+FILES_${PN} = " \
+            ${libdir}/lib*.so \
+            "
 
 FILES_${PN}-dbg += "${libdir}/llvm/.debug ${bindir}/llvm/.debug"
 
