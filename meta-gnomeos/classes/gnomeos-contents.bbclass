@@ -13,12 +13,10 @@ PACKAGE_INSTALL += " \
 		task-gnomeos-contents-runtime \
 		ldd \
 		libltdl7 \
-		libllvm-llvmcore \
 		"
 
 DEPENDS += "task-gnomeos-contents-runtime makedevs-native \
 	virtual/fakeroot-native \
-	llvm \
 	"
 
 EXCLUDE_FROM_WORLD = "1"
