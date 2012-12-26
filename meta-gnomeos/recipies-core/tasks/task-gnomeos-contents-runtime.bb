@@ -97,5 +97,4 @@ RDEPENDS += "\
 	 dejavu-fonts-ttf \
 	 module-init-tools \
 	 nss-altfiles \
-         llvm
 	 "
