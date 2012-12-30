@@ -446,17 +446,28 @@ python package_do_split_locales() {
     locale_section = d.getVar('LOCALE_SECTION', True)
     mlprefix = d.getVar('MLPREFIX', True) or ""
     pndep = base_contains('PACKAGES', pn, '%s ' % pn, '', d)
+
+    base_locale_pkg = pn + '-locale'
+    packages.append(base_locale_pkg)
+    d.setVar('ALLOW_EMPTY_' + base_locale_pkg, '1')
+    d.setVar('SUMMARY_' + base_locale_pkg, '%s - all translations' % (summary,))
+    d.setVar('DESCRIPTION_' + base_locale_pkg, '%s  This metapackage depends on packages providing language translation files.' % (description,))
+    d.setVar('RDEPENDS_' + base_locale_pkg, '')
+    d.setVar('FILES_' + base_locale_pkg, '')
+    if locale_section:
+        d.setVar('SECTION_' + pkg, locale_section)
+
     for l in sorted(locales):
         ln = legitimize_package_name(l)
         pkg = pn + '-locale-' + ln
         packages.append(pkg)
         d.setVar('FILES_' + pkg, os.path.join(datadir, 'locale', l))
-        d.setVar('RDEPENDS_' + pkg, '%s%svirtual-locale-%s' % (pndep, mlprefix, ln))
-        d.setVar('RPROVIDES_' + pkg, '%s-locale %s%s-translation' % (pn, mlprefix, ln))
+        d.setVar('RDEPENDS_' + pkg, pndep)
         d.setVar('SUMMARY_' + pkg, '%s - %s translations' % (summary, l))
         d.setVar('DESCRIPTION_' + pkg, '%s  This package contains language translation files for the %s locale.' % (description, l))
         if locale_section:
             d.setVar('SECTION_' + pkg, locale_section)
+        d.setVar('RDEPENDS_' + base_locale_pkg, '%s %s' % (d.getVar('RDEPENDS_' + base_locale_pkg, True), pkg))
 
     d.setVar('PACKAGES', ' '.join(packages))
 
