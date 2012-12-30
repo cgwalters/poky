@@ -29,7 +29,9 @@ RDEPENDS += "\
 	 libssp \
 	 eglibc-gconvs \
 	 eglibc-binaries \
-	 eglibc-localedata-en-us \
+	 eglibc-localedatas \
+	 eglibc-charmaps \
+	 eglibc-locale \
 	 pam-plugin-cracklib \
 	 pam-plugin-env \
 	 pam-plugin-keyinit \
