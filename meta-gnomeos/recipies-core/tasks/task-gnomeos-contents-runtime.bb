@@ -63,7 +63,6 @@ RDEPENDS += "\
 	 pciutils \
 	 base-files \
 	 base-passwd \
-	 netbase \
 	 busybox \
 	 update-alternatives-cworth \
 	 coreutils \

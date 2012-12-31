@@ -47,9 +47,6 @@ fakeroot do_rootfs () {
 	rm -rf ${IMAGE_ROOTFS}/etc/init.d
 	rm -rf ${IMAGE_ROOTFS}/etc/rc*.d
 
-	# Kill the Debian netbase stuff - we use NetworkManager
-	rm -rf ${IMAGE_ROOTFS}/etc/network
-
 	# Empty out the default passwd file
 	rm -f ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/etc/group \
 	  ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
