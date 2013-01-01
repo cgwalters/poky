@@ -128,6 +128,9 @@ EOF
 	rmdir ${IMAGE_ROOTFS}/lib
 	ln -s usr/lib ${IMAGE_ROOTFS}/lib
 
+	# Remove all .la files
+	find ${IMAGE_ROOTFS}/usr/lib -name \*.la -delete
+
 	# And ensure systemd is /sbin/init
 	ln -s ../lib/systemd/systemd ${IMAGE_ROOTFS}/usr/sbin/init
 
