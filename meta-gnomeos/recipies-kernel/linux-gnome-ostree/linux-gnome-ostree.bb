@@ -19,7 +19,7 @@ SRCREV="a0d271cbfed1dd50278c6b06bead3d00ba0a88f9"
 
 S = "${WORKDIR}/git"
 
-PR = "r1"
+PR = "r2"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 # Override COMPATIBLE_MACHINE to include your machine in a bbappend
