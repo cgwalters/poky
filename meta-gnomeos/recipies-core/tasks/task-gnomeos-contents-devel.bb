@@ -79,6 +79,7 @@ RDEPENDS += "     \
 	 gnutls-dev \
 	 icu-dev \
 	 curl-dev \
+	 nspr-dev \
 	 ncurses-dev \
 	 db-dev \
 	 cracklib-dev \

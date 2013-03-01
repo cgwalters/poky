@@ -91,6 +91,7 @@ RDEPENDS += "\
 	 ncurses \
 	 libvorbis \
 	 speex \
+	 nspr \
 	 python-modules \
 	 python-misc \
 	 openssh \
