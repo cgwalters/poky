@@ -81,6 +81,10 @@ EOF
 	# in the initramfs.
 	cat < /dev/null > ${IMAGE_ROOTFS}/etc/fstab
 
+	# This should be a symlink
+	rm -f ${IMAGE_ROOTFS}/etc/localtime
+	ln -s ../usr/share/zoneinfo/Europe/London ${IMAGE_ROOTFS}/etc/localtime
+
 	# Do the kernel and modules
 	mkdir -p ${IMAGE_ROOTFS}/boot
 	cp -p ${DEPLOY_DIR_IMAGE}/bzImage-${OSTREE_ROOTFS_KERNEL_VERSION} ${IMAGE_ROOTFS}/boot/vmlinuz-${OSTREE_ROOTFS_KERNEL_VERSION}
