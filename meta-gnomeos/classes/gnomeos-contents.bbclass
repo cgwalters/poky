@@ -81,9 +81,11 @@ EOF
 	# in the initramfs.
 	cat < /dev/null > ${IMAGE_ROOTFS}/etc/fstab
 
-	# This should be a symlink
+	# Install defaults
 	rm -f ${IMAGE_ROOTFS}/etc/localtime
 	ln -s ../usr/share/zoneinfo/Europe/London ${IMAGE_ROOTFS}/etc/localtime
+	echo LANG=\"en_US.UTF-8\" > ${IMAGE_ROOTFS}/etc/locale.conf
+	
 
 	# Do the kernel and modules
 	mkdir -p ${IMAGE_ROOTFS}/boot
