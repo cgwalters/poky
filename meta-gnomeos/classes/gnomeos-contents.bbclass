@@ -52,7 +52,7 @@ fakeroot do_rootfs () {
 	  ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/etc/gshadow
 	# root has no password by default
 	cat > ${IMAGE_ROOTFS}/etc/passwd << EOF
-root::0:0:root:/:/bin/sh
+root::0:0:root:/root:/bin/sh
 EOF
 	cat > ${IMAGE_ROOTFS}/etc/group << EOF
 root:x:0:root
