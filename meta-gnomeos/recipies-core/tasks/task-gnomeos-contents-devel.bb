@@ -89,4 +89,5 @@ RDEPENDS += "     \
 	 boost-dev \
 	 libsqlite3-dev \
 	 expat-dev \
+	 intltool \
 	 "
