@@ -90,4 +90,5 @@ RDEPENDS += "     \
 	 libsqlite3-dev \
 	 expat-dev \
 	 intltool \
+	 texinfo \
 	 "
