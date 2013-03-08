@@ -87,4 +87,5 @@ RDEPENDS += "     \
 	 krb5-dev \
          llvm-dev \
 	 boost-dev \
+	 libsqlite3-dev \
 	 "
