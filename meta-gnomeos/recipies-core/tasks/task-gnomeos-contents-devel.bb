@@ -88,4 +88,5 @@ RDEPENDS += "     \
          llvm-dev \
 	 boost-dev \
 	 libsqlite3-dev \
+	 expat-dev \
 	 "
