@@ -15,6 +15,7 @@ PACKAGE_INSTALL += " \
 		task-gnomeos-contents-runtime \
 		ldd \
 		libltdl7 \
+		libicule50 \
 		"
 
 DEPENDS += "task-gnomeos-contents-runtime makedevs-native \
