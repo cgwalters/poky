@@ -153,6 +153,8 @@ EOF
 	    mkdir $d
 	done
 
+	ln -s sysroot/ostree ostree
+
 	for d in $READONLY_BIND_MOUNTS; do
             mv ${IMAGE_ROOTFS}/$d .
 	done
