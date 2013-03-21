@@ -19,9 +19,6 @@ inherit autotools gettext
 
 BBCLASSEXTEND = "native"
 
-do_install_append() {
+do_install_append_class-target() {
 	create-cracklib-dict -o ${D}${datadir}/cracklib/pw_dict ${D}${datadir}/cracklib/cracklib-small
-}
-
-do_install_append_virtclass-native() {
 }
