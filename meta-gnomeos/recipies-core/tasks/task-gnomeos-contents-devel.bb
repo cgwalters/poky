@@ -93,4 +93,5 @@ RDEPENDS += "     \
 	 expat-dev \
 	 intltool \
 	 texinfo \
+	 python-pyparsing \
 	 "
