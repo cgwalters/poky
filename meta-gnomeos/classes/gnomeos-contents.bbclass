@@ -122,8 +122,14 @@ EOF
 	done
 
 	# Undo libattr/libacl weirdness
-	rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la}
-	rm -f ${IMAGE_ROOTFS}/usr/lib/lib{acl,attr}.so
+	#rm -f ${IMAGE_ROOTFS}/lib/lib{acl,attr}.{a,la}
+	#rm -f ${IMAGE_ROOTFS}/usr/lib/lib{acl,attr}.so
+	rm -f ${IMAGE_ROOTFS}/lib/libacl.a
+	rm -f ${IMAGE_ROOTFS}/lib/libacl.la
+	rm -f ${IMAGE_ROOTFS}/lib/libattr.a
+	rm -f ${IMAGE_ROOTFS}/lib/libattr.la
+	rm -f ${IMAGE_ROOTFS}/usr/lib/libacl.so
+	rm -f ${IMAGE_ROOTFS}/usr/lib/libattr.so
 
 	# Complete UsrMove for lib
 	mv ${IMAGE_ROOTFS}/lib/* ${IMAGE_ROOTFS}/usr/lib
