@@ -11,6 +11,7 @@ meta-*
 !meta-hob
 !meta-gnomeos
 !meta-selinux
+!meta-oe
 *.swp
 *.orig
 *.rej

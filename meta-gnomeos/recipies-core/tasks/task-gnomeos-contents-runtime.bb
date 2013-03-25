@@ -104,4 +104,5 @@ RDEPENDS += "\
          llvm \
          sqlite3 libsqlite3 \
          expat \
+	 cyrus-sasl \
 	 "
