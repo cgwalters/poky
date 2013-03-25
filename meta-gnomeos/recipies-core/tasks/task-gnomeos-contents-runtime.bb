@@ -107,4 +107,5 @@ RDEPENDS += "\
          syslinux-extlinux \
          syslinux-mbr \
          syslinux-misc \
+	 cyrus-sasl \
 	 "

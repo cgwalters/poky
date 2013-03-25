@@ -1,5 +1,6 @@
 meta
 meta-yocto
 meta-yocto-bsp
-meta-gnomeos
 meta-selinux
+meta-oe/meta-networking
+meta-gnomeos

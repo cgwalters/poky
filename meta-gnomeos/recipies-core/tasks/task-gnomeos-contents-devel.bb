@@ -94,4 +94,5 @@ RDEPENDS += "     \
 	 intltool \
 	 texinfo \
 	 python-pyparsing \
+	 cyrus-sasl-dev \
 	 "

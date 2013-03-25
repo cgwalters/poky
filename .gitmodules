@@ -1,3 +1,6 @@
 [submodule "meta-selinux"]
 	path = meta-selinux
 	url = https://github.com/cgwalters/meta-selinux.git
+[submodule "meta-oe"]
+	path = meta-oe
+	url = git://git.openembedded.org/meta-openembedded
