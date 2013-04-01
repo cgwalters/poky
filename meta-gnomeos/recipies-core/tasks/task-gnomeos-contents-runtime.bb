@@ -104,4 +104,7 @@ RDEPENDS += "\
          llvm \
          sqlite3 libsqlite3 \
          expat \
+         syslinux-extlinux \
+         syslinux-mbr \
+         syslinux-misc \
 	 "
