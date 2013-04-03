@@ -141,6 +141,21 @@ EOF
 	rmdir ${IMAGE_ROOTFS}/lib
 	ln -s usr/lib ${IMAGE_ROOTFS}/lib
 
+	# And now let's take the next logical step, merge /usr/sbin
+	# into /usr/bin.  Rusty Russell will be overjoyed:
+	# http://rusty.ozlabs.org/?p=236
+
+	if test -d ${IMAGE_ROOTFS}/usr/sbin/.debug; then
+	  mkdir -p ${IMAGE_ROOTFS}/usr/bin/.debug
+	  mv ${IMAGE_ROOTFS}/usr/sbin/.debug/* ${IMAGE_ROOTFS}/usr/bin/.debug
+	  rmdir ${IMAGE_ROOTFS}/usr/sbin/.debug
+	fi
+	for x in ${IMAGE_ROOTFS}/usr/sbin/*; do
+	  mv ${x} ${IMAGE_ROOTFS}/usr/bin
+	done
+	rmdir ${IMAGE_ROOTFS}/usr/sbin
+	ln -s bin ${IMAGE_ROOTFS}/usr/sbin
+
 	# Remove all .la files
 	find ${IMAGE_ROOTFS}/usr/lib -name \*.la -delete
 
