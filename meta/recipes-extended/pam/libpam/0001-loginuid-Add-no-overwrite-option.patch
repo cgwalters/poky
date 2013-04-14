@@ -1,0 +1,166 @@
+From f9ddbf0c136d8cd9472a6920d0c42a89815079b8 Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Sun, 14 Apr 2013 09:53:38 -0400
+Subject: [PATCH] loginuid: Add "no-overwrite" option
+
+This is a lot easier for system integrators to use, because one can
+fearlessly add pam_loginuid to the common module stack.  I didn't make
+it the default behavior, but that's worth considering; I can't think
+of a situation in which it would be bad.
+---
+ modules/pam_loginuid/pam_loginuid.c |  102 +++++++++++++++++++++++++++++------
+ 1 files changed, 85 insertions(+), 17 deletions(-)
+
+diff --git a/modules/pam_loginuid/pam_loginuid.c b/modules/pam_loginuid/pam_loginuid.c
+index 0647997..108070c 100644
+--- a/modules/pam_loginuid/pam_loginuid.c
++++ b/modules/pam_loginuid/pam_loginuid.c
+@@ -39,6 +39,8 @@
+ 
+ #include <fcntl.h>
+ 
++#define LOGINUID_UNSET ((unsigned int) -1)
++
+ #ifdef HAVE_LIBAUDIT
+ #include <libaudit.h>
+ #include <sys/select.h>
+@@ -46,27 +48,88 @@
+ #endif
+ 
+ /*
++ * Open /proc/self/loginuid for either reading or writing, storing
++ * the result in @out_fd.  As a special case, if the system is configured
++ * without loginuid support, this function returns
++ * success, and @out_fd will be -1.
++ */
++static int
++open_loginuid_fd (pam_handle_t *pamh, uid_t uid, int write, int *out_fd)
++{
++	int count;
++	int flags;
++
++	if (write)
++		flags = O_NOFOLLOW|O_WRONLY|O_TRUNC;
++	else
++		flags = O_NOFOLLOW|O_RDONLY;
++	*out_fd = open("/proc/self/loginuid", flags);
++	if (*out_fd < 0) {
++		if (errno == ENOENT) {
++			*out_fd = -1;
++		} else {
++			pam_syslog(pamh, LOG_ERR,
++				   "Cannot open /proc/self/loginuid: %m");
++			return 1;
++		}
++	}
++	return 0;
++}
++
++/*
+  * This function writes the loginuid to the /proc system. It returns
+  * 0 on success and 1 on failure.
+  */
+-static int set_loginuid(pam_handle_t *pamh, uid_t uid)
++static int set_loginuid(pam_handle_t *pamh, uid_t uid, int overwrite)
+ {
+-	int fd, count, rc = 0;
++	int bytes_read, count, fd, rc = 1;
+ 	char loginuid[24];
++	char buf[512];
+ 
+-	count = snprintf(loginuid, sizeof(loginuid), "%lu", (unsigned long)uid);
+-	fd = open("/proc/self/loginuid", O_NOFOLLOW|O_WRONLY|O_TRUNC);
+-	if (fd < 0) {
+-		if (errno != ENOENT) {
+-			rc = 1;
++	if (!overwrite) {
++		char loginuid_unset[24];
++
++		count = snprintf(loginuid_unset, sizeof(loginuid_unset), "%lu", LOGINUID_UNSET);
++
++		if (open_loginuid_fd(pamh, uid, 0, &fd))
++			goto out;
++
++		if (fd == -1) {
++			/* Not an error if we don't have loginuid support */
++			rc = 0;
++			goto out;
++		}
++		
++		if ((bytes_read = pam_modutil_read(fd, buf, sizeof(buf) - 1)) < 0) {
+ 			pam_syslog(pamh, LOG_ERR,
+-				   "Cannot open /proc/self/loginuid: %m");
++				   "Cannot read /proc/self/loginuid: %m");
++			goto out;
++		} 
++		
++		buf[bytes_read] = '\0';
++		if (strcmp (buf, loginuid_unset) != 0) {
++			rc = 0;
++			goto out;
+ 		}
+-		return rc;
++
++		(void) close(fd);
++	}
++
++	count = snprintf(loginuid, sizeof(loginuid), "%lu", uid);
++
++	if (open_loginuid_fd(pamh, uid, 1, &fd))
++		goto out;
++	if (fd == -1) {
++		/* Not an error if we don't have loginuid support */
++		rc = 0;
++		goto out;
+ 	}
+ 	if (pam_modutil_write(fd, loginuid, count) != count)
+-		rc = 1;
+-	close(fd);
++		goto out;
++	rc = 0;
++out:
++	if (fd != -1)
++		close(fd);
+ 	return rc;
+ }
+ 
+@@ -165,6 +228,7 @@ _pam_loginuid(pam_handle_t *pamh, int flags UNUSED,
+ {
+         const char *user = NULL;
+ 	struct passwd *pwd;
++	int overwrite = 1;
+ #ifdef HAVE_LIBAUDIT
+ 	int require_auditd = 0;
+ #endif
+@@ -183,18 +247,22 @@ _pam_loginuid(pam_handle_t *pamh, int flags UNUSED,
+ 		return PAM_SESSION_ERR;
+ 	}
+ 
+-	if (set_loginuid(pamh, pwd->pw_uid)) {
+-		pam_syslog(pamh, LOG_ERR, "set_loginuid failed\n");
+-		return PAM_SESSION_ERR;
+-	}
+-
+-#ifdef HAVE_LIBAUDIT
+ 	while (argc-- > 0) {
++#ifdef HAVE_LIBAUDIT
+ 		if (strcmp(*argv, "require_auditd") == 0)
+ 			require_auditd = 1;
++#endif
++		if (strcmp(*argv, "no-overwrite") == 0)
++			overwrite = 0;
+ 		argv++;
+ 	}
+ 
++	if (set_loginuid(pamh, pwd->pw_uid, overwrite)) {
++		pam_syslog(pamh, LOG_ERR, "set_loginuid failed: %m\n");
++		return PAM_SESSION_ERR;
++	}
++
++#ifdef HAVE_LIBAUDIT
+ 	if (require_auditd)
+ 		return check_auditd();
+ 	else
+-- 
+1.7.1
+
