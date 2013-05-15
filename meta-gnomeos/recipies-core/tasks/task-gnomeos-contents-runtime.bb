@@ -80,6 +80,18 @@ RDEPENDS += "\
 	 util-linux \
 	 curl \
 	 tzdata \
+	 tzdata-africa \
+	 tzdata-americas \
+	 tzdata-antarctica \
+	 tzdata-arctic \
+	 tzdata-asia \
+	 tzdata-atlantic \
+	 tzdata-australia \
+	 tzdata-europe \
+	 tzdata-misc \
+	 tzdata-pacific \
+	 tzdata-posix \
+	 tzdata-right \
 	 libsndfile1 \
 	 icu \
 	 procps \
