@@ -69,6 +69,12 @@ EOF
 	       -e '/^group:/cgroup: files altfiles' \
                ${IMAGE_ROOTFS}/etc/nsswitch.conf
 
+	# Intersection of defaults between RHEL and Debian
+	cat > ${IMAGE_ROOTFS}/etc/hosts <<EOF
+127.0.0.1   localhost
+::1         localhost6 ip6-localhost
+EOF
+
 	# Ensure we're set up for systemd
         echo "session optional pam_systemd.so" >> ${IMAGE_ROOTFS}/etc/pam.d/common-session 
 
