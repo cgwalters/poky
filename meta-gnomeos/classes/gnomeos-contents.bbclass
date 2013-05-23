@@ -188,6 +188,9 @@ EOF
 	done
 
 	ln -s sysroot/ostree ostree
+	# See https://bugzilla.gnome.org/show_bug.cgi?id=700718
+	ln -s var/opt opt
+	ln -s var/srv srv
 
 	for d in $READONLY_BIND_MOUNTS; do
             mv ${IMAGE_ROOTFS}/$d .
