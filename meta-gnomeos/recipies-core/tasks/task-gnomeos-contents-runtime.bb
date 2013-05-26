@@ -18,6 +18,7 @@ RDEPENDS += "\
 	 e2fsprogs-e2fsck \
 	 e2fsprogs-mke2fs \
 	 e2fsprogs-tune2fs \
+	 btrfs-tools \
 	 gdbm \
 	 pciutils \
 	 tiff \
