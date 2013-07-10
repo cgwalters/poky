@@ -208,6 +208,9 @@ EOF
 
 	# These are the only directories we take from the OE build
         mv ${IMAGE_ROOTFS}/usr .
+	# Except /usr/local -> ../var/usrlocal
+	rm usr/local -rf
+	ln -s ../var/usrlocal usr/local
         mv ${IMAGE_ROOTFS}/etc .
         mv ${IMAGE_ROOTFS}/boot .
 	# Also move the toplevel compat links
