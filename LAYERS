@@ -1,0 +1,5 @@
+meta
+meta-yocto
+meta-yocto-bsp
+meta-oe/meta-networking
+meta-gnomeos

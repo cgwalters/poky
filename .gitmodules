@@ -1,0 +1,3 @@
+[submodule "meta-oe"]
+	path = meta-oe
+	url = https://github.com/openembedded/meta-oe.git

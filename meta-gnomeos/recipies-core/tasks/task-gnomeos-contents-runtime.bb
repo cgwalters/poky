@@ -99,8 +99,6 @@ RDEPENDS += "\
 	 libpam \
 	 attr \
 	 acl \
-	 libselinux \
-	 policycoreutils \
 	 bzip2 \
 	 xz \
 	 ncurses \
