@@ -10,6 +10,11 @@ PARALLEL_MAKE = ""
 
 EXTRA_OECONF = "--enable-job-control"
 
+# Override getcwd_malloc because the copy of getcwd()
+# in bash blows up when run inside a chroot and a bind
+# mount pointing outside.  This assumes we're using eglibc.
+EXTRA_OECONF += "bash_cv_getcwd_malloc=yes "
+
 ALTERNATIVE_${PN} = "sh"
 ALTERNATIVE_LINK_NAME[sh] = "${base_bindir}/sh"
 ALTERNATIVE_TARGET[sh] = "${base_bindir}/bash"
