@@ -1,17 +1,11 @@
 pkg_postinst_modules () {
-if [ -z "$D" ]; then
-	depmod -a ${KERNEL_VERSION}
-else
-	depmodwrapper -a -b $D ${KERNEL_VERSION}
-fi
+# HACK gnome-ostree this is too slow...should be posttrans
+true
 }
 
 pkg_postrm_modules () {
-if [ -z "$D" ]; then
-	depmod -a ${KERNEL_VERSION}
-else
-	depmodwrapper -a -b $D ${KERNEL_VERSION}
-fi
+# HACK gnome-ostree this is too slow...should be posttrans
+true
 }
 
 autoload_postinst_fragment() {
