@@ -6,13 +6,14 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 PR = "1"
 
 DEPENDS += " linux-gnome-ostree"
 
-RDEPENDS += "\
+RDEPENDS_${PN} += "\
+	 kernel-image kernel-modules \
 	 util-linux-libuuid \
 	 util-linux-blkid \
 	 e2fsprogs-e2fsck \

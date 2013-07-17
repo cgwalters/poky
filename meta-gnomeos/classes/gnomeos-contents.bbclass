@@ -7,8 +7,6 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
 
 inherit rootfs_${IMAGE_PKGTYPE}
 
-OSTREE_ROOTFS_KERNEL_VERSION = "3.6.0-gnome-ostree"
-
 do_rootfs[depends] += "linux-gnome-ostree:do_deploy"
 
 PACKAGE_INSTALL += " \
@@ -100,15 +98,16 @@ EOF
 	ln -s ../usr/share/zoneinfo/Europe/London ${IMAGE_ROOTFS}/etc/localtime
 	echo LANG=\"en_US.UTF-8\" > ${IMAGE_ROOTFS}/etc/locale.conf
 	
-
-	# Do the kernel and modules
-	mkdir -p ${IMAGE_ROOTFS}/boot
-	cp -p ${DEPLOY_DIR_IMAGE}/bzImage-${OSTREE_ROOTFS_KERNEL_VERSION} ${IMAGE_ROOTFS}/boot/vmlinuz-${OSTREE_ROOTFS_KERNEL_VERSION}
-	echo "Extracting modules.tgz"
-	tar -x -C "${IMAGE_ROOTFS}" -z -f ${DEPLOY_DIR_IMAGE}/modules-${OSTREE_ROOTFS_KERNEL_VERSION}.tgz
-
 	# Do UsrMove for bin and sbin
-	mv ${IMAGE_ROOTFS}/bin/* ${IMAGE_ROOTFS}/usr/bin
+        cd ${IMAGE_ROOTFS}/bin
+        for x in *; do
+          if test -L ${x} && test -x ../usr/bin/${x}; then
+	    rm ${x}
+	  else
+            mv ${x} ../usr/bin/${x}
+          fi
+        done
+        cd -
 	if test -d ${IMAGE_ROOTFS}/bin/.debug; then
 	  mkdir -p ${IMAGE_ROOTFS}/usr/bin/.debug
 	  mv ${IMAGE_ROOTFS}/bin/.debug/* ${IMAGE_ROOTFS}/usr/bin/.debug
@@ -163,9 +162,15 @@ EOF
 	  mv ${IMAGE_ROOTFS}/usr/sbin/.debug/* ${IMAGE_ROOTFS}/usr/bin/.debug
 	  rmdir ${IMAGE_ROOTFS}/usr/sbin/.debug
 	fi
-	for x in ${IMAGE_ROOTFS}/usr/sbin/*; do
-	  mv ${x} ${IMAGE_ROOTFS}/usr/bin
+        cd ${IMAGE_ROOTFS}/usr/sbin
+	for x in *; do
+          if test -L ${x} && test -x ../bin/${x}; then
+	    rm ${x}
+	  else
+	    mv ${x} ../bin
+          fi
 	done
+        cd -
 	rmdir ${IMAGE_ROOTFS}/usr/sbin
 	ln -s bin ${IMAGE_ROOTFS}/usr/sbin
 
