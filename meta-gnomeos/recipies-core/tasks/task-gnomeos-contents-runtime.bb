@@ -20,6 +20,7 @@ RDEPENDS_${PN} += "\
 	 e2fsprogs-mke2fs \
 	 e2fsprogs-tune2fs \
 	 btrfs-tools \
+	 libffi \
 	 gdbm \
 	 pciutils \
 	 tiff \
