@@ -10,8 +10,6 @@ ALLOW_EMPTY_${PN} = "1"
 
 PR = "1"
 
-DEPENDS += " linux-gnome-ostree"
-
 RDEPENDS_${PN} += "\
 	 kernel-image kernel-modules \
 	 util-linux-libuuid \
