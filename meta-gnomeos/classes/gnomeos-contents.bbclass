@@ -74,9 +74,6 @@ EOF
 	# Ensure we're set up for systemd
         echo "session optional pam_systemd.so" >> ${IMAGE_ROOTFS}/etc/pam.d/common-session 
 
-	# Remove su; we only support pkexec
-	rm -f ${IMAGE_ROOTFS}/bin/su
-
 	# Adjustments for /etc -> {/var,/run} here
 	ln -sf /run/resolv.conf ${IMAGE_ROOTFS}/etc/resolv.conf
 
@@ -167,6 +164,9 @@ EOF
         cd -
 	rmdir ${IMAGE_ROOTFS}/usr/sbin
 	ln -s bin ${IMAGE_ROOTFS}/usr/sbin
+
+	# Remove su; we only support pkexec
+	rm -f ${IMAGE_ROOTFS}/bin/su
 
 	# Remove all .la files
 	find ${IMAGE_ROOTFS}/usr/lib -name \*.la -delete
