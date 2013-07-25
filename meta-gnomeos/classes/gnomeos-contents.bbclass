@@ -75,11 +75,7 @@ EOF
         echo "session optional pam_systemd.so" >> ${IMAGE_ROOTFS}/etc/pam.d/common-session 
 
 	# Remove su; we only support pkexec
-	cat > ${IMAGE_ROOTFS}/bin/su <<EOF
-#!/bin/sh
-exec pkexec /usr/bin/bash
-EOF
-	chmod u=rwx,g=rx,o=rx ${IMAGE_ROOTFS}/bin/su
+	rm -f ${IMAGE_ROOTFS}/bin/su
 
 	# Adjustments for /etc -> {/var,/run} here
 	ln -sf /run/resolv.conf ${IMAGE_ROOTFS}/etc/resolv.conf
