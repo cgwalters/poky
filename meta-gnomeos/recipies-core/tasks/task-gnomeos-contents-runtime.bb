@@ -32,6 +32,7 @@ RDEPENDS_${PN} += "\
 	 eglibc-binaries \
 	 eglibc-localedatas \
 	 eglibc-charmaps \
+	 eglibc-utils \
 	 eglibc-locale \
 	 pam-plugin-cracklib \
 	 pam-plugin-env \
