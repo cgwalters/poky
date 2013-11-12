@@ -45,6 +45,7 @@ RDEPENDS_${PN} += "     \
 	 gdb \
 	 zip \
 	 ruby \
+	 cmake \
 	 llvm-dev \
 	 libxml-parser-perl \
 	 gettext-dev \
