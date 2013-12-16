@@ -10,6 +10,9 @@ ALLOW_EMPTY_${PN} = "1"
 
 PR = "3"
 
+# We explicitly want -dbg packages
+INSANE_SKIP_${PN} = "debug-deps"
+
 RDEPENDS_${PN} += "     \
 	 autoconf \
 	 automake \
