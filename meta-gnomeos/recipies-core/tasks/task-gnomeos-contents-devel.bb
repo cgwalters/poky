@@ -60,6 +60,7 @@ RDEPENDS_${PN} += "     \
 	 libpam-dev \
 	 tiff-dev \
 	 jpeg-dev \
+	 jpeg-dbg \
 	 libexif-dev \
 	 libtool-dev \
 	 libsndfile1-dev \
