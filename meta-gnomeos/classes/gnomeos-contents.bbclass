@@ -175,16 +175,16 @@ EOF
 	ln -s ../lib/systemd/systemd ${IMAGE_ROOTFS}/usr/bin/init
 
 	rm -rf ${WORKDIR}/contents
-	mkdir ${WORKDIR}/contents
+	mkdir -m 0755 ${WORKDIR}/contents
         cd ${WORKDIR}/contents
 
 	# The default toplevel directories used as mount targets
 	for d in dev proc run sys var; do
-	    mkdir $d
+	    mkdir -m 0755 $d
 	done
 
 	# Special ostree mount
-	mkdir sysroot
+	mkdir -m 0755 sysroot
 
 	# Some FHS targets; these all live in /var
 	ln -s var/opt opt
