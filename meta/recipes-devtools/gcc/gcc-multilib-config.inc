@@ -34,7 +34,7 @@ python gcc_multilib_setup() {
             rel_path = os.path.relpath(fn, src_conf_dir)
             parent_dir = os.path.dirname(rel_path)
             bb.utils.mkdirhier('%s/%s' % (build_conf_dir, parent_dir))
-            bb.copyfile(fn, '%s/%s' % (build_conf_dir, rel_path))
+            bb.utils.copyfile(fn, '%s/%s' % (build_conf_dir, rel_path))
 
     multilibs = (d.getVar('MULTILIB_VARIANTS', True) or '').split()
     if not multilibs:
@@ -109,6 +109,7 @@ python gcc_multilib_setup() {
         'i586'      : ['gcc/config/i386/t-linux64'],
         'mips'      : ['gcc/config/mips/t-linux64'],
         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
+        'powerpc64' : ['gcc/config/rs6000/t-linux64'],
     }
 
     gcc_header_config_files = {
@@ -116,6 +117,7 @@ python gcc_multilib_setup() {
         'i586'      : ['gcc/config/i386/linux64.h'],
         'mips'      : ['gcc/config/mips/linux64.h'],
         'powerpc'   : ['gcc/config/rs6000/linux64.h'],
+        'powerpc64' : ['gcc/config/rs6000/linux64.h'],
     }
 
     target_arch = (d.getVar('TARGET_ARCH_MULTILIB_ORIGINAL', True) if mlprefix
@@ -148,6 +150,7 @@ python gcc_multilib_setup() {
     options = []
     dirnames = []
     osdirnames = []
+    optsets = []
 
     for ml in ml_list:
         tune = d.getVar(ml, True)
@@ -172,15 +175,30 @@ python gcc_multilib_setup() {
         else:
             bb.error('Unknown libdir (%s) of the tune : %s' % (tune_baselib, tune))
 
-        # take out '-' and march='s from parameters
-        options.append(re.sub(r'march=[^ ]+ *', '',
-                            re.sub(r' +\-+', ' ',
-                                re.sub(r'^ *\-+', '', tune_parameters['ccargs']))))
+        # take out '-' mcpu='s and march='s from parameters
+        options.append(re.sub(r'mcpu=[^ ]+ *', '',
+                         re.sub(r'march=[^ ]+ *', '',
+                           re.sub(r' +\-+', ' ',
+                             re.sub(r'^ *\-+', '', tune_parameters['ccargs'])))))
         if tune_baselib == 'lib':
             dirnames.append('32')  # /lib => 32bit lib
         else:
             dirnames.append(tune_baselib.replace('lib', ''))
         osdirnames.append('../' + tune_baselib)
+
+    if len(options) > 1:
+        for optstr in options:
+            optsets.append(optstr.split())
+
+    #get common options present in all the tune parameters
+        common_opt_set = set.intersection(*map(set, optsets))
+
+    #common options will be added at the end of the options string only once
+        if (len(common_opt_set) > 0):
+            rex = re.compile(''.join(['\\b(', '|'.join(common_opt_set), ')\\W']), re.I)
+            options = [rex.sub("", optstr) for optstr in options]
+            options = [optstr.strip() for optstr in options]
+            options[len(options)-1] = ' '.join((options[len(options)-1], ' '.join(common_opt_set)))
 
     write_config(builddir, target_config_files, options, dirnames, osdirnames)
     write_headers(builddir, header_config_files, libdir32, libdir64, libdirx32, libdirn32)

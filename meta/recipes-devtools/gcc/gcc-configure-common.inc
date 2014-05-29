@@ -48,6 +48,7 @@ EXTRA_OECONF = "${@['--enable-clocale=generic', ''][d.getVar('USE_NLS', True) !=
                 ${@get_gcc_mips_plt_setting(bb, d)} \
                 ${@get_gcc_multiarch_setting(bb, d)}"
 
+export ac_cv_path_SED = 'sed'
 export gcc_cv_collect2_libs = 'none required'
 # We need to set gcc_cv_collect2_libs else there is cross-compilation badness
 # in the config.log files (which might not get generated until do_compile
@@ -77,6 +78,7 @@ SYSTEMLIBS = "${target_base_libdir}/"
 SYSTEMLIBS1 = "${target_libdir}/"
 
 do_configure_prepend () {
+	set -x
 	# teach gcc to find correct target includedir when checking libc ssp support
 	mkdir -p ${B}/gcc
 	echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe

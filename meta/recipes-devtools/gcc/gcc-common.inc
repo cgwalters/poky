@@ -1,4 +1,4 @@
-DESCRIPTION = "The GNU cc and gcc C compilers."
+SUMMARY = "GNU cc and gcc C compilers"
 HOMEPAGE = "http://www.gnu.org/software/gcc/"
 SECTION = "devel"
 LICENSE = "GPL"
@@ -16,8 +16,10 @@ def get_gcc_fpu_setting(bb, d):
         return "--enable-e500_double"
     return ""
 
+get_gcc_fpu_setting[vardepvalue] = "${@get_gcc_fpu_setting(bb, d)}"
+
 def get_gcc_mips_plt_setting(bb, d):
-    if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'mips', 'mipsel' ] and 'mplt' in d.getVar('DISTRO_FEATURES',1).split() :
+    if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'mips', 'mipsel' ] and oe.utils.contains('DISTRO_FEATURES', 'mplt', True, False, d):
         return "--with-mips-plt"
     return ""
 
@@ -26,10 +28,11 @@ def get_gcc_multiarch_setting(bb, d):
     multiarch_options = {
         "i586":    "--enable-targets=all",
         "powerpc": "--enable-targets=powerpc64",
+        "mips":    "--enable-targets=all",
         "sparc":   "--enable-targets=all",
     }
 
-    if 'multiarch' in d.getVar('DISTRO_FEATURES', True).split() :
+    if oe.utils.contains('DISTRO_FEATURES', 'multiarch', True, False, d):
         if target_arch in multiarch_options :
             return multiarch_options[target_arch]
     return ""
@@ -60,10 +63,6 @@ def get_tune_parameters(tune, d):
 
 get_tune_parameters[vardepsexclude] = "AVAILTUNES"
 
-# We really need HOST_SYS here for some packages and TARGET_SYS for others.
-# For now, libgcc is most important so we fix for that - RP.
-SHLIBSDIR = "${STAGING_DIR_TARGET}/shlibs"
-
 DEBIANNAME_${MLPREFIX}libgcc = "libgcc1"
 
 MIRRORS =+ "\
@@ -91,10 +90,12 @@ do_patch[stamp-base] = "${SS}"
 SSCLEAN = "${TMPDIR}/stamps/work-shared/gcc-[0-9]*-*"
 do_fetch[stamp-base-clean] = "${SSCLEAN}"
 do_unpack[stamp-base-clean] = "${SSCLEAN}"
+do_unpack[umask] = "022"
 do_patch[stamp-base-clean] = "${SSCLEAN}"
 
 # SW means Shared Work directory
 SW = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
+SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
 WORKDIR_task-unpack = "${SW}"
 WORKDIR_task-patch = "${SW}"
 
