@@ -29,6 +29,7 @@ SRC_URI += "\
   file://python-2.7.3-remove-bsdb-rpath.patch \
   file://builddir.patch \
   file://python-2.7.3-CVE-2012-2135.patch \
+  file://fix-configure-Wformat.patch \
 "
 
 S = "${WORKDIR}/Python-${PV}"
