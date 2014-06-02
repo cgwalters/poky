@@ -4,7 +4,7 @@ EXTRANATIVEPATH += "bzip2-native"
 DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native"
 PR = "${INC_PR}.1"
 
-SRC_URI += "file://04-default-is-optimized.patch \
+SRC_URI += "\
            file://05-enable-ctypes-cross-build.patch \
            file://06-ctypes-libffi-fix-configure.patch \
            file://10-distutils-fix-swig-parameter.patch \
@@ -16,10 +16,13 @@ SRC_URI += "file://04-default-is-optimized.patch \
            file://multilib.patch \
            file://add-md5module-support.patch \
            file://builddir.patch \
+           file://parallel-makeinst-create-bindir.patch \
+           file://python-fix-build-error-with-Readline-6.3.patch \
+           file://gcc-4.8-fix-configure-Wformat.patch \
            "
 S = "${WORKDIR}/Python-${PV}"
 
-FILESPATH = "${FILE_DIRNAME}/python-native/:${FILE_DIRNAME}/python/"
+FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:"
 
 inherit native
 
@@ -48,4 +51,10 @@ do_install() {
 	for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
 		sed -i -e '1s|^#!.*|#!/usr/bin/env python|' $PYTHSCRIPT
 	done
+
+	# Add a symlink to the native Python so that scripts can just invoke
+	# "nativepython" and get the right one without needing absolute paths
+	# (these often end up too long for the #! parser in the kernel as the
+	# buffer is 128 bytes long).
+	ln -s python-native/python ${D}${bindir}/nativepython
 }

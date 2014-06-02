@@ -108,6 +108,8 @@ RDEPENDS_${PN} += "\
 	 nspr \
 	 python-modules \
 	 python-misc \
+	 python3 \
+	 python3-modules \
 	 openssh \
 	 krb5 \
 	 dejavu-fonts-ttf \

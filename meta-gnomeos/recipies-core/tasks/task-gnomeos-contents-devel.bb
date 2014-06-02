@@ -42,6 +42,7 @@ RDEPENDS_${PN} += "     \
 	 elfutils \
 	 valgrind \
 	 python-dev \
+	 python3-dev \
 	 libffi-dev \
 	 bison flex \
 	 git \

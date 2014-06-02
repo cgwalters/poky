@@ -7,11 +7,9 @@ DISTRO_SRC_URI_linuxstdbase = ""
 SRC_URI += "\
   file://01-use-proper-tools-for-cross-build.patch \
   file://03-fix-tkinter-detection.patch \
-  file://04-default-is-optimized.patch \
   file://05-enable-ctypes-cross-build.patch \
   file://06-ctypes-libffi-fix-configure.patch \
   file://06-avoid_usr_lib_termcap_path_in_linking.patch \
-  file://99-ignore-optimization-flag.patch \
   ${DISTRO_SRC_URI} \
   file://multilib.patch \
   file://cgi_py.patch \
@@ -29,12 +27,20 @@ SRC_URI += "\
   file://python-2.7.3-remove-bsdb-rpath.patch \
   file://builddir.patch \
   file://python-2.7.3-CVE-2012-2135.patch \
-  file://fix-configure-Wformat.patch \
+  file://gcc-4.8-fix-configure-Wformat.patch \
+  file://fix-makefile-for-ptest.patch \
+  file://run-ptest \
+  file://CVE-2013-4073_py27.patch \
+  file://pypirc-secure.patch \
+  file://parallel-makeinst-create-bindir.patch \
+  file://python-2.7.3-CVE-2013-1752-smtplib-fix.patch \
+  file://python-fix-build-error-with-Readline-6.3.patch \
+  file://python-2.7.3-CVE-2014-1912.patch \
 "
 
 S = "${WORKDIR}/Python-${PV}"
 
-inherit autotools multilib_header pythonnative
+inherit autotools multilib_header python-dir pythonnative
 
 # The 3 lines below are copied from the libffi recipe, ctypes ships its own copy of the libffi sources
 #Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=softp :(
@@ -59,7 +65,7 @@ do_compile() {
         cd -
 
 	# remove hardcoded ccache, see http://bugs.openembedded.net/show_bug.cgi?id=4144
-	sed -i -e s,ccache,'$(CCACHE)', Makefile
+	sed -i -e s,ccache\ ,'$(CCACHE) ', Makefile
 
 	# remove any bogus LD_LIBRARY_PATH
 	sed -i -e s,RUNSHARED=.*,RUNSHARED=, Makefile
@@ -98,6 +104,17 @@ do_install() {
 
 	export CROSS_COMPILE="${TARGET_PREFIX}"
 	export PYTHONBUILDDIR="${S}"
+
+	# After swizzling the makefile, we need to run the build again.
+	# install can race with the build so we have to run this first, then install
+	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
+		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
+		STAGING_LIBDIR=${STAGING_LIBDIR} \
+		STAGING_INCDIR=${STAGING_INCDIR} \
+		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+		DESTDIR=${D} LIBDIR=${libdir}
 	
 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
@@ -115,6 +132,10 @@ do_install() {
 	fi
 
 	oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
+}
+
+do_install_append_class-nativesdk () {
+	create_wrapper ${D}${bindir}/python2.7 TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo'
 }
 
 SSTATE_SCAN_FILES += "Makefile"
@@ -146,6 +167,17 @@ FILES_${PN}-dbg += "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
 # catch all the rest (unsorted)
 PACKAGES += "${PN}-misc"
 FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
+RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-misc"
+#inherit ptest after "require python-${PYTHON_MAJMIN}-manifest.inc" so PACKAGES doesn't get overwritten
+inherit ptest
+
+# This must come after inherit ptest for the override to take effect
+do_install_ptest() {
+	cp ${B}/Makefile ${D}${PTEST_PATH}
+	sed -e s:LIBDIR/python/ptest:${PTEST_PATH}:g \
+	 -e s:LIBDIR:${libdir}:g \
+	 -i ${D}${PTEST_PATH}/run-ptest
+}
 
 # catch manpage
 PACKAGES += "${PN}-man"
