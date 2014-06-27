@@ -106,6 +106,8 @@ RDEPENDS_${PN} += "\
 	 libvorbis \
 	 speex \
 	 nspr \
+	 parted \
+	 dosfstools \
 	 python-modules \
 	 python-misc \
 	 python3 \
