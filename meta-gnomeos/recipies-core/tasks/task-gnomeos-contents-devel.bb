@@ -16,6 +16,7 @@ INSANE_SKIP_${PN} = "debug-deps"
 RDEPENDS_${PN} += "     \
 	 autoconf \
 	 automake \
+	 bc \
 	 binutils \
 	 binutils-symlinks \
 	 coreutils \
@@ -56,7 +57,6 @@ RDEPENDS_${PN} += "     \
 	 libpci-dev \
 	 bzip2-dev \
 	 xz-dev \
-	 linux-libc-headers-dev \
 	 zlib-dev \
 	 gdbm-dev \
 	 libtool-dev \

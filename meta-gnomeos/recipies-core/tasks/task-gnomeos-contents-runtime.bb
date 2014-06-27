@@ -11,7 +11,6 @@ ALLOW_EMPTY_${PN} = "1"
 PR = "1"
 
 RDEPENDS_${PN} += "\
-	 kernel-image kernel-modules \
 	 util-linux-libuuid \
 	 util-linux-blkid \
 	 e2fsprogs-e2fsck \
