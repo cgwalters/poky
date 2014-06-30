@@ -199,8 +199,8 @@ EOF
 	# the real disk and inside the chroot.
 	ln -s sysroot/ostree ostree
 
-	# /tmp is always /sysroot/tmp
-	ln -s sysroot/tmp tmp
+	# /tmp is an empty mountpoint
+	mkdir tmp
 	
 	# By default, /home -> var/home -> ../sysroot/home
 	ln -s var/home home
