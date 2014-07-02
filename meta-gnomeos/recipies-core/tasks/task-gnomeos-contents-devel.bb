@@ -100,4 +100,8 @@ RDEPENDS_${PN} += "     \
 	 texinfo \
 	 python-pyparsing \
 	 cyrus-sasl-dev \
+	 elfutils-dev \
+	 libelf-dev \
+	 libasm-dev \
+	 libdw-dev \
 	 "
