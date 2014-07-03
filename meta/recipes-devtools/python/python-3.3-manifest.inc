@@ -67,11 +67,11 @@ FILES_${PN}-difflib="${libdir}/python3.3/difflib.* "
 
 SUMMARY_${PN}-distutils="Python Distribution Utilities"
 RDEPENDS_${PN}-distutils="${PN}-core"
-FILES_${PN}-distutils="${libdir}/python3.3/config ${libdir}/python3.3/distutils "
+FILES_${PN}-distutils="${libdir}/python3.3/config-3.3m ${libdir}/python3.3/distutils "
 
 SUMMARY_${PN}-distutils-staticdev="Python distribution utilities (static libraries)"
 RDEPENDS_${PN}-distutils-staticdev="${PN}-distutils"
-FILES_${PN}-distutils-staticdev="${libdir}/python3.3/config/lib*.a "
+FILES_${PN}-distutils-staticdev="${libdir}/python3.3/config-3.3m/lib*.a "
 
 SUMMARY_${PN}-doctest="Python framework for running examples in docstrings"
 RDEPENDS_${PN}-doctest="${PN}-core ${PN}-lang ${PN}-io ${PN}-re ${PN}-unittest ${PN}-debugger ${PN}-difflib"

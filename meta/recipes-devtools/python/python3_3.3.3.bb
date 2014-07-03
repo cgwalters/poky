@@ -135,7 +135,7 @@ do_install() {
 	export CROSS_COMPILE="${TARGET_PREFIX}"
 	export PYTHONBUILDDIR="${S}"
 	install -d ${D}${libdir}/pkgconfig
-	install -d ${D}${libdir}/python${PYTHON_MAJMIN}/config
+	install -d ${D}${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}
 
 	# rerun the build once again with original makefile this time
 	# run install in a separate step to avoid compile/install race
@@ -161,7 +161,7 @@ do_install() {
 		ARCH=${TARGET_ARCH} \
 		DESTDIR=${D} LIBDIR=${libdir} install
 
-	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/Makefile
 
 	if [ -e ${WORKDIR}/sitecustomize.py ]; then
 		install -m 0644 ${WORKDIR}/sitecustomize.py ${D}/${libdir}/python${PYTHON_MAJMIN}
@@ -179,9 +179,9 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
 
 py_package_preprocess () {
 	# copy back the old Makefile to fix target package
-	install -m 0644 Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+	install -m 0644 Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/Makefile
 	# Remove references to buildmachine paths in target Makefile
-	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/Makefile
 }
 
 require python-${PYTHON_MAJMIN}-manifest.inc
