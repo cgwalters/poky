@@ -2,7 +2,7 @@ DESCRIPTION = "The Low Level Virtual Machine"
 HOMEPAGE = "http://llvm.org"
 # 3-clause BSD-like
 LICENSE = "NCSA"
-LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=60fdd7739841f04a2ce2171a726be8f3"
+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=71df953c321b5b31ae94316a7fb6a7f3"
 
 DEPENDS = "llvm-native"
 DEPENDS_virtclass-native = "cmake-native"
