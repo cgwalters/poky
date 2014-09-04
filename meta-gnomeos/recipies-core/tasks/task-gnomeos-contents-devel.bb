@@ -63,8 +63,8 @@ RDEPENDS_${PN} += "     \
 	 util-linux-libuuid-dev \
 	 libpam-dev \
 	 tiff-dev \
-	 jpeg-dev \
-	 jpeg-dbg \
+	 libjpeg-turbo-dev \
+	 libjpeg-turbo-dbg \
 	 libexif-dev \
 	 libtool-dev \
 	 libsndfile1-dev \
