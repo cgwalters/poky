@@ -111,6 +111,7 @@ RDEPENDS_${PN} += "\
 	 python-misc \
 	 python3 \
 	 python3-modules \
+	 python3-misc \
 	 openssh \
 	 krb5 \
 	 dejavu-fonts-ttf \
